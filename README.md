@@ -17,4 +17,3 @@ Plain HTML, served by GitHub Pages. `CNAME` holds the domain. The root `index.ht
   contact-form service later, add its address to that line or the browser will block it.
 - `.well-known/security.txt` tells people where to report a problem with the site.
 - Keep two-step sign-in on GitHub, Hostinger and Gmail, and keep `ibrarchitech.com` verified in GitHub's Pages settings.
-

@@ -11,6 +11,34 @@ const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const lerp = (a, b, t) => a + (b - a) * t;
 const damp = (a, b, k, dt) => lerp(a, b, 1 - Math.exp(-k * dt));
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+// a critically damped follow with a top speed (as in game cameras): no jumps, and fast scrolling can't whip the motion
+function follow(cur, target, st, smooth, maxSpeed, dt) {
+  if (dt <= 0) return cur;
+  const w = 2 / smooth, x = w * dt, k = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
+  const lim = maxSpeed * smooth, change = clamp(cur - target, -lim, lim), goal = cur - change;
+  const temp = (st.v + w * change) * dt;
+  st.v = (st.v - w * temp) * k;
+  let out = goal + (change + temp) * k;
+  if ((target - cur > 0) === (out > target)) { out = target; st.v = 0; }
+  return out;
+}
+// a smooth curve through keyframes that never overshoots and has no stop at the middle keys (monotone cubic)
+function track(keys, pick) {
+  const n = keys.length, x = keys.map((k) => k.p), y = keys.map(pick), d = [], m = new Array(n).fill(0);
+  for (let i = 0; i < n - 1; i++) d.push((y[i + 1] - y[i]) / (x[i + 1] - x[i]));
+  for (let i = 1; i < n - 1; i++) {
+    if (d[i - 1] * d[i] <= 0) continue;
+    const w1 = 2 * (x[i + 1] - x[i]) + (x[i] - x[i - 1]), w2 = (x[i + 1] - x[i]) + 2 * (x[i] - x[i - 1]);
+    m[i] = (w1 + w2) / (w1 / d[i - 1] + w2 / d[i]);
+  }
+  return (p) => {
+    if (p <= x[0]) return y[0];
+    if (p >= x[n - 1]) return y[n - 1];
+    let i = 0; while (p > x[i + 1]) i++;
+    const h = x[i + 1] - x[i], t = (p - x[i]) / h, t2 = t * t, t3 = t2 * t;
+    return (2 * t3 - 3 * t2 + 1) * y[i] + (t3 - 2 * t2 + t) * h * m[i] + (-2 * t3 + 3 * t2) * y[i + 1] + (t3 - t2) * h * m[i + 1];
+  };
+}
 const ORANGE = new THREE.Color('#F08A3C'), CREAM = new THREE.Color('#EDE6DA'), TEAL = new THREE.Color('#3E9C97'), MUTE = new THREE.Color('#8C8580');
 
 function webglOK() {
@@ -331,18 +359,15 @@ function initGlobe(el, cfg) {
     node.innerHTML = '<i></i><b></b>';
     node.querySelector('b').textContent = m.label;
     el.appendChild(node);
-    return { ...m, node, v: new THREE.Vector3(...sph(m.lat, m.lon, 1.004)) };
+    return { ...m, node, b: node.querySelector('b'), left: m.side === 'left', w: 0, v: new THREE.Vector3(...sph(m.lat, m.lon, 1.004)) };
   });
+  if (document.fonts) document.fonts.ready.then(() => marks.forEach((m) => { m.w = 0; }));   // measure labels again once the type has loaded
   const pin = el.querySelector('.caa-pin'), area = el.querySelector('.caa-area');
 
   // pose
-  const frames = cfg.frames;
-  const poseAt = (p) => {
-    let i = 0; while (i < frames.length - 2 && p > frames[i + 1].p) i++;
-    const A = frames[i], B = frames[i + 1] || A, t = B === A ? 0 : ease(clamp((p - A.p) / (B.p - A.p)));
-    return { yaw: -lerp(A.lon, B.lon, t) * RAD, pitch: lerp(A.lat, B.lat, t) * RAD, zoom: lerp(A.zoom, B.zoom, t) };
-  };
-  const st = { p: reduce ? 1 : 0, dyaw: 0, dpitch: 0, vy: 0, last: -1e9, rise: 0, zoom: 0 };
+  const frames = cfg.frames, lonAt = track(frames, (f) => f.lon), latAt = track(frames, (f) => f.lat), zoomAt = track(frames, (f) => f.zoom);
+  const poseAt = (p) => ({ yaw: -lonAt(p) * RAD, pitch: latAt(p) * RAD, zoom: clamp(zoomAt(p)) });
+  const st = { p: reduce ? 1 : 0, pv: { v: 0 }, dyaw: 0, dpitch: 0, vy: 0, last: -1e9, rise: 0, zoom: 0 };
   let drag = null;
   el.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, dyaw: st.dyaw, dpitch: st.dpitch, t: performance.now(), lx: e.clientX }; el.classList.add('is-dragging'); });
   window.addEventListener('pointermove', (e) => {
@@ -358,8 +383,11 @@ function initGlobe(el, cfg) {
   const look = new THREE.Vector3(), tmp = new THREE.Vector3(), cdir = new THREE.Vector3();
   s.update = (dt) => {
     const r = el.getBoundingClientRect(), vh = innerHeight;
-    const target = reduce ? 1 : clamp((vh - r.top) / (vh * 0.62 + r.height * 0.5));
-    st.p = reduce ? 1 : damp(st.p, target, 4, dt);
+    // the turn runs the whole time the globe crosses the screen: from a fifth of it showing at the bottom
+    // until its centre is 30% from the top; the view follows the scroll softly, at a capped speed
+    const from = vh - r.height * 0.2, to = vh * 0.3 - r.height * 0.5;
+    const target = reduce ? 1 : clamp((from - r.top) / (from - to));
+    st.p = reduce ? 1 : follow(st.p, target, st.pv, 0.5, 0.75, dt);
     const P = poseAt(st.p);
     const idle = !drag && performance.now() - st.last > 2600;
     if (!drag) { st.dyaw += st.vy * dt; st.vy = damp(st.vy, 0, 2.5, dt); }
@@ -367,7 +395,7 @@ function initGlobe(el, cfg) {
     const off = Math.min(1, Math.abs(Math.sin(st.dyaw / 2)) * 3 + Math.abs(st.dpitch) * 2);   // turned away by hand: pull the camera back
     st.zoom = P.zoom * (1 - off);
     globe.rotation.set(P.pitch + st.dpitch, P.yaw + st.dyaw, 0, 'XYZ');
-    const z = ease(clamp(st.zoom)), narrow = s.w / s.h < 0.9 ? 1.15 : 1;
+    const z = clamp(st.zoom), narrow = s.w / s.h < 0.9 ? 1.15 : 1;
     camera.position.set(0, lerp(0, -0.5, z), lerp(3.55 * narrow, 1.78 * narrow, z));
     look.set(0, lerp(0, 0.06, z), lerp(0, 1, z));
     camera.lookAt(look);
@@ -385,7 +413,14 @@ function initGlobe(el, cfg) {
       node.style.opacity = facing > minFacing && q.x > -20 && q.x < s.w + 20 && q.y > -20 && q.y < s.h + 20 ? String(extra) : '0';
     };
     if (pin) place(pin, new THREE.Vector3(...sph(JEDDAH.lat, JEDDAH.lon, 1 + st.rise * 0.064 * z + 0.004)), 0.15);
-    marks.forEach((m) => place(m.node, m.v, 0.2));
+    marks.forEach((m) => {
+      place(m.node, m.v, 0.2);
+      // a label that would run past the edge of the globe's box goes to the other side of its dot
+      if (!m.w) m.w = m.b.offsetWidth;
+      const x = parseFloat(m.node.style.transform.slice(10)) || 0;
+      const left = m.left ? x - 12 - m.w >= 0 || x + 14 + m.w > s.w : x + 14 + m.w > s.w && x - 12 - m.w >= 0;
+      m.node.classList.toggle('caa-mk-left', left);
+    });
     if (area) place(area, new THREE.Vector3(...sph(22.6, 50.5, 1.01)), 0.3, clamp((z - 0.35) / 0.4));
   };
   return s;
@@ -498,8 +533,8 @@ function start() {
   const rtl = document.documentElement.dir === 'rtl';
   const q = (k) => document.querySelector(`[data-caa="${k}"]`);
   mount(q('stack'), (el) => initStack(el, { rtl, names: el.dataset.names ? el.dataset.names.split('|') : null }));
-  mount(q('globe'), (el) => initGlobe(el, { mode: 'saudi', frames: [{ p: 0, lat: 20, lon: 18, zoom: 0 }, { p: 0.35, lat: 22, lon: 38, zoom: 0 }, { p: 0.8, lat: KSA_C.lat, lon: KSA_C.lon, zoom: 1 }] }));
-  mount(q('examples'), (el) => initGlobe(el, { mode: 'gulf', markers: JSON.parse(el.dataset.markers || '[]'), frames: [{ p: 0, lat: 36, lon: -60, zoom: 0 }, { p: 0.4, lat: 38, lon: 4, zoom: 0 }, { p: 0.85, lat: 27, lon: 45, zoom: 0.78 }] }));
+  mount(q('globe'), (el) => initGlobe(el, { mode: 'saudi', frames: [{ p: 0, lat: 20, lon: 18, zoom: 0 }, { p: 0.42, lat: 22, lon: 37, zoom: 0 }, { p: 0.9, lat: KSA_C.lat, lon: KSA_C.lon, zoom: 1 }] }));
+  mount(q('examples'), (el) => initGlobe(el, { mode: 'gulf', markers: JSON.parse(el.dataset.markers || '[]'), frames: [{ p: 0, lat: 36, lon: -60, zoom: 0 }, { p: 0.45, lat: 38, lon: 4, zoom: 0 }, { p: 0.9, lat: 27, lon: 45, zoom: 0.78 }] }));
   mount(q('building'), (el) => initBuilding(el));
   requestAnimationFrame(frame);
 }
