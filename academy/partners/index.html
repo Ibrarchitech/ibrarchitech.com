@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; frame-src https://docs.google.com; base-uri 'none'; form-action 'none'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>For partners · Cinematic Arts Academy</title>
 <meta name="description" content="A model for a film academy in Jeddah, built on evidence: the research, the goals it answers and how to work with it.">
 <meta name="author" content="Ibrahim A. Fallatah">
@@ -22,9 +24,7 @@
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/icon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Barlow+Condensed:wght@500;600;700;800&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Doto:wght@500;700;900&amp;family=IBM+Plex+Sans+Arabic:wght@400;600&amp;display=swap">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
 <style>
 body{margin:0;background:#000}
 a{color:#F08A3C}a:hover{color:#EDE6DA}
@@ -45,29 +45,186 @@ a{color:#F08A3C}a:hover{color:#EDE6DA}
 .caa-row:hover{background:rgba(240,138,60,.05)}
 @media (prefers-reduced-motion: reduce){.caa-spin,.caa-spin-svg,.caa-pulse,.caa-float,.caa-blink,.caa-breathe{animation:none}}
 
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 img,svg,iframe{max-width:100%}
-a:focus-visible{outline:2px solid #F08A3C;outline-offset:3px}
+a:focus-visible,[tabindex]:focus-visible{outline:2px solid #F08A3C;outline-offset:3px}
+html[dir=rtl] h1{padding-top:10px}
+.caa-grain{position:fixed;inset:0;z-index:40;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background:url(../assets/grain.png) 0 0/256px 256px}
 .caa-form{height:min(1100px, 82vh)}
-@media (max-width: 600px){.caa-form{height:88vh}}
-/* phones: the monitor wall sits behind the quote, so dim it; shrink the stack of film frames */
-@media (max-width: 760px){
-  .caa-wall{left:0 !important;right:0 !important;opacity:.2}
-  .caa-stack{height:480px !important}
-  .caa-stack > div{top:250px !important;transform:scale(.62);transform-origin:0 0}
-  html[dir=rtl] .caa-stack > div{transform-origin:100% 0}
+.caa-hint{display:none}
+@media (max-width: 1099px){
+  .caa-hint{display:block}
+  .caa-scroller{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent);scroll-snap-type:x proximity}
+  .caa-hint + .caa-scroller[style*="margin-top: 56px"]{margin-top:22px !important}
 }
-/* bigger tap areas on touch screens for text links */
+@keyframes caa-nudge{0%,60%,100%{transform:none}30%{transform:translateX(6px)}}
+.caa-hint-arrow{display:inline-block;animation:caa-nudge 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.caa-hint-arrow{animation:none}}
+
+/* ---------- phones ---------- */
+@media (max-width: 760px){
+  /* sections were spaced for a 1440 px screen: 260-300 px of black between them on a phone */
+  section[style*="padding: 1"]{padding-top:88px !important;padding-bottom:88px !important}
+  section[style*="padding: 2"]{padding-top:200px !important;padding-bottom:190px !important}
+  section[style*="min-height: 9"]{min-height:0 !important}
+
+  /* hero: the stack of film frames, smaller and closer to the text */
+  .caa-stack{height:400px !important;margin:0 0 28px}
+  .caa-stack > div:not(.caa-stage){top:104px !important;transform:scale(.6);transform-origin:0 0}
+  html[dir=rtl] .caa-stack > div:not(.caa-stage){transform-origin:100% 0}
+  .caa-stack > .caa-legend{left:0 !important;right:0 !important;bottom:0 !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:7px 14px !important;letter-spacing:1.2px !important}
+  .caa-stack > .caa-legend li{white-space:normal !important}
+
+  /* why this project: quote first, then the monitor wall in full (it was dimmed behind the text) */
+  .caa-why{min-height:0 !important;display:flex;flex-direction:column}
+  .caa-why .caa-shade{display:none}
+  .caa-why .caa-whytext{order:1;padding-top:88px !important;padding-bottom:8px !important;max-width:none !important}
+  .caa-why .caa-wall{order:2;position:relative !important;inset:auto !important;left:auto !important;right:auto !important;height:660px;margin:0 clamp(20px,3.4vw,48px)}
+  .caa-mon{top:48px !important;left:0 !important;right:0 !important;width:100% !important;transform:none !important}
+  .caa-mongrid{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:14px 12px !important}
+  .caa-mongrid [style*="height: 26px"]{height:auto !important}
+  .caa-mongrid p[style*="font-size: 9px"]{font-size:10px !important;letter-spacing:1px !important}
+  .caa-mongrid p[style*="font-size: 19px"]{font-size:13px !important}
+  .caa-mon > div:first-child{flex-wrap:wrap;font-size:10px !important;letter-spacing:1.5px !important}
+  .caa-sil{left:50% !important;right:auto !important;transform:translateX(-50%);width:140px !important;height:162px !important}
+
+  /* the building: three markers that fit the screen */
+  .caa-bdiag{height:400px !important;flex-basis:100% !important}
+  .caa-bdiag .caa-float > div:first-child{max-width:150px;box-sizing:border-box}
+  .caa-fl1{left:0 !important;top:236px !important}
+  .caa-fl2{left:calc(50% - 85px) !important;top:136px !important}
+  .caa-fl3{left:auto !important;right:0 !important;top:36px !important}
+
+  /* take part: one column instead of pieces placed for a wide screen */
+  #take-part{min-height:0 !important;display:flex;flex-direction:column;align-items:center;gap:26px;padding:88px clamp(20px,3.4vw,48px) 120px}
+  #take-part > *{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;transform:none !important}
+  #take-part > [aria-hidden="true"]{position:absolute !important;left:0 !important;right:0 !important;bottom:0 !important}
+  #take-part .caa-tp-label{align-self:stretch}
+  #take-part .caa-tp-quote{max-width:none !important;text-align:center !important;font-size:24px !important}
+  #take-part .caa-tp-ring{width:min(340px,88vw) !important}
+  #take-part .caa-tp-qr{margin-top:6px}
+  #take-part .caa-tp-ring p[style*="margin: 4px 0 0"]{max-width:200px;line-height:1.7}
+
+  /* the TV that holds the survey form: thinner frame, more room for the form */
+  .caa-tv{padding:14px !important;border-radius:22px !important}
+  .caa-form{height:80vh}
+
+  /* partners: the goals table becomes one card per goal */
+  .caa-goals{min-width:0 !important}
+  .caa-goals thead{display:none}
+  .caa-goals,.caa-goals tbody,.caa-goals tr,.caa-goals td{display:block;width:auto !important}
+  .caa-goals tr{padding:16px 0}
+  .caa-goals td{padding:3px 0 !important}
+  .caa-goals td[data-label]::before{content:attr(data-label);display:block;margin:8px 0 2px;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:2px;text-transform:uppercase;color:#8C8580}
+
+  /* 9-10 px labels are too small to read on a phone */
+  [style*="font-size: 9px"]:not(.caa-mongrid *),[style*="font-size: 10px"]:not(.caa-mon *),[style*="font-size: 10.5px"]{font-size:11px !important}
+
+  /* a moving background repaints the whole circle every frame: heavy on a phone battery */
+  .caa-drift{animation:none !important}
+}
+@media (max-width: 380px){.caa-stack > div:not(.caa-stage){transform:scale(.55) !important}}
 @media (pointer: coarse){a:not([style*="padding"]){padding-block:8px}}
+
+/* ---------- 3D scenes (three.js); the CSS drawings stay as the fallback */
+.caa-stage{position:absolute;inset:0;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.caa-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+html:not(.caa-no3d) .caa-stack > div:not(.caa-stage),html:not(.caa-no3d) .caa-globebox > :not(.caa-stage){visibility:hidden}
+.caa-no3d .caa-stage{display:none}
+.caa-off > :not(.caa-stage){visibility:visible !important}.caa-off > .caa-stage{display:none !important}
+.caa-stack3d{bottom:70px}
+.caa-enter{position:absolute;z-index:3;display:block;color:transparent;font-size:1px;overflow:hidden;border-radius:2px}
+.caa-enter:focus-visible{outline:2px solid #F08A3C;outline-offset:4px}
+.caa-craft-tag{position:absolute;left:0;top:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .25s;white-space:nowrap;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:20px;letter-spacing:1px;color:#EDE6DA;background:rgba(0,0,0,.72);padding:4px 10px 4px 8px;border-left:3px solid #F08A3C}
+html[dir=rtl] .caa-craft-tag{font-family:'IBM Plex Sans Arabic',sans-serif;letter-spacing:0;border-left:0;border-right:3px solid #F08A3C}
+.caa-globe3d{cursor:grab}
+.caa-globe3d.is-dragging{cursor:grabbing}
+.caa-pin,.caa-mk,.caa-area{position:absolute;left:0;top:0;z-index:2;pointer-events:none;transition:opacity .3s}
+.caa-pin i{position:absolute;left:-9px;top:-9px;width:18px;height:18px;border-radius:50%;border:4px solid #F08A3C;box-sizing:border-box;background:#0E0C0B}
+.caa-pin i::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid #F08A3C;animation:caa-ping 2.2s ease-out infinite}
+@keyframes caa-ping{from{transform:scale(.5);opacity:1}to{transform:scale(1.6);opacity:0}}
+.caa-pin b,.caa-mk b{position:absolute;left:14px;top:-26px;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:11px;letter-spacing:2px;color:#EDE6DA;white-space:nowrap;background:rgba(0,0,0,.6);padding:2px 6px}
+html[dir=rtl] .caa-pin b{font-family:'IBM Plex Sans Arabic',sans-serif;letter-spacing:0;font-size:13px}
+.caa-mk i{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;box-sizing:border-box;border:3px solid #EDE6DA;background:#0E0C0B}
+.caa-mk b{top:-9px;font-size:10px;letter-spacing:1.5px;padding:1px 5px}
+.caa-mk-left b{left:auto;right:12px}
+.caa-mk-closed i{border-color:#8C8580;border-style:dashed}
+.caa-mk-closed b{color:#8C8580}
+.caa-area{transform-origin:0 0}
+.caa-area b,.caa-area small{position:absolute;left:0;top:0;transform:translate(-50%,-150%);white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:11px;letter-spacing:2.5px;color:#F08A3C}
+.caa-area small{transform:translate(-50%,-10%);font-size:16px;letter-spacing:3px;color:#EDE6DA}
+html[dir=rtl] .caa-area b,html[dir=rtl] .caa-area small{font-family:'IBM Plex Sans Arabic',sans-serif;letter-spacing:0}
+@media (prefers-reduced-motion: reduce){.caa-pin i::after{animation:none}}
+/* where the model exists */
+.caa-exist{margin-top:110px;display:flex;flex-wrap:wrap;gap:40px 56px;align-items:center;text-align:start}
+.caa-exist-text{flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:18px}
+.caa-exist-k{margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;color:#8C8580}
+.caa-exist-k span{color:#F08A3C}
+html[dir=rtl] .caa-exist-k{font-family:inherit;letter-spacing:0;font-size:14px}
+.caa-exist-h{margin:0;font-size:clamp(28px,2.8vw,42px);font-weight:600;line-height:1.12;text-wrap:balance}
+html[dir=rtl] .caa-exist-h{line-height:1.5}
+.caa-exist-d{margin:0;font-size:16px;line-height:1.6;color:#C9C1B5;max-width:520px}
+.caa-exist-list{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 24px}
+.caa-ex{display:grid;grid-template-columns:12px 1fr;column-gap:10px;align-items:baseline}
+.caa-ex i{width:9px;height:9px;border-radius:50%;border:2px solid #EDE6DA;box-sizing:border-box;transform:translateY(1px)}
+.caa-ex b{font-size:15px;font-weight:600}
+.caa-ex span{grid-column:2;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#8C8580}
+html[dir=rtl] .caa-ex span{font-family:inherit;letter-spacing:0;font-size:13px}
+.caa-ex-closed i{border-color:#8C8580;border-style:dashed}
+.caa-ex-closed b{color:#8C8580}
+.caa-ex-gap{grid-column:1 / -1;margin-top:6px;padding-top:12px;border-top:1px solid #26221F}
+.caa-ex-gap i{border:0;background:#B4581F;width:10px;height:10px}
+.caa-ex-gap b{color:#F08A3C}
+.caa-exist-src{margin:0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#8C8580}
+html[dir=rtl] .caa-exist-src{font-family:inherit;letter-spacing:0;font-size:13px}
+.caa-exist-globe{flex:1.2 1 460px;min-width:0;display:flex;flex-direction:column;align-items:center;gap:12px}
+.caa-exist-box{position:relative;width:min(100%,560px);aspect-ratio:1/1;background:radial-gradient(circle at 50% 50%,rgba(180,88,31,.12),transparent 62%)}
+.caa-exist-hint{margin:0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2.5px;color:#8C8580}
+html[dir=rtl] .caa-exist-hint{font-family:inherit;letter-spacing:0;font-size:13px}
+.caa-no3d .caa-exist-globe{display:none}
+/* the building diagram */
+.caa-btag{position:absolute;left:0;top:0;z-index:2;pointer-events:none;opacity:0;display:flex;align-items:center;gap:10px;background:rgba(14,12,11,.85);border:1px solid currentColor;padding:8px 12px;white-space:nowrap}
+.caa-btag i{width:8px;height:8px;border-radius:50%;background:currentColor}
+.caa-btag span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;color:#EDE6DA}
+.caa-btag em{font-style:normal}
+.caa-bcap{position:absolute;right:0;bottom:0;margin:0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2.5px;color:#8C8580}
+/* goals panel */
+.caa-goals-list{display:flex;flex-direction:column}
+.caa-goal{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:6px 24px;align-items:center;border-top:1px solid #26221F;padding:14px 0}
+.caa-goal:last-child{border-bottom:1px solid #26221F}
+.caa-goal-a{display:flex;flex-direction:column;gap:4px}
+.caa-goal-v{margin:0;font-family:'Doto',monospace;font-weight:900;font-size:30px;line-height:1}
+html[dir=rtl] .caa-goal-v{text-align:right}
+html[dir=rtl] .caa-goal-v:not([dir]){font-family:'IBM Plex Sans Arabic',sans-serif;font-weight:700;font-size:24px}
+.caa-goal-l{margin:0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#C9C1B5;text-transform:uppercase}
+.caa-goal-l span{display:block;color:#8C8580;text-transform:none;letter-spacing:1px}
+html[dir=rtl] .caa-goal-l{font-family:inherit;letter-spacing:0;font-size:14px}
+.caa-goal-b{margin:0;font-size:15px;line-height:1.45;color:#EDE6DA}
+.caa-goal-b span{color:#F08A3C;font-family:'IBM Plex Mono',monospace}
+.caa-goal-src{margin:16px 0 0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.2px;line-height:1.6;color:#8C8580}
+html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5px}
+@media (max-width: 760px){
+  .caa-stack3d{bottom:100px}
+  .caa-exist{margin-top:80px}
+  .caa-exist-list{grid-template-columns:minmax(0,1fr)}
+  .caa-btag{padding:6px 9px}
+  .caa-btag em{display:none}
+  .caa-goal{grid-template-columns:minmax(0,1fr)}
+  .caa-strip{padding:26px 16px !important}
+  .caa-stages{grid-template-columns:minmax(0,1fr) !important}
+  .caa-stages > div{aspect-ratio:auto !important;min-height:150px}
+  .caa-now,.caa-now-label{display:none}
+  #proposal{padding-top:250px !important;padding-bottom:190px !important}
+}
 </style>
 </head>
 <body>
 <div style="position: relative; background: #000000; color: #EDE6DA; font-family: 'Barlow', Arial, sans-serif; min-height: 100vh; overflow: hidden">
 
-<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: overlay; opacity: 0.22; z-index: 40">
+<div aria-hidden="true" class="caa-grain"></div>
+<svg aria-hidden="true" focusable="false" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
 <filter id="caa-grain-b"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
-<rect width="100%" height="100%" filter="url(#caa-grain-b)"></rect>
 </svg>
 
 <section id="top" style="position: relative; min-height: 980px; background: radial-gradient(ellipse 44% 50% at 70% 52%, rgba(240,138,60,0.12), transparent 70%), radial-gradient(ellipse 40% 40% at 92% 12%, rgba(62,156,151,0.14), transparent 70%), radial-gradient(ellipse 55% 260px at 50% 100%, rgba(240,138,60,0.17), transparent), #000000">
@@ -183,7 +340,7 @@ a:focus-visible{outline:2px solid #F08A3C;outline-offset:3px}
 <p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #8C8580">06 GOALS · 4 BODIES</p>
 </div>
 <div style="overflow-x: auto">
-<table style="width: 100%; min-width: 860px; border-collapse: collapse; font-size: 17px; line-height: 1.5">
+<table class="caa-goals" style="width: 100%; min-width: 860px; border-collapse: collapse; font-size: 17px; line-height: 1.5">
 <thead>
 <tr>
 <th scope="col" style="text-align: left; padding: 14px 16px 14px 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #8C8580; font-weight: 500; width: 6%">#</th>
@@ -196,38 +353,38 @@ a:focus-visible{outline:2px solid #F08A3C;outline-offset:3px}
 <tr class="caa-row" style="border-top: 1px solid #26221F">
 <td style="padding: 22px 16px 22px 0; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G1</td>
 <td style="padding: 18px 20px 18px 0; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">10,000</span><span style="display: block; color: #C9C1B5">people working in film by 2030</span></td>
-<td style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Ministry of Investment</td>
-<td style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Trains crews in eight crafts, from a first workshop to a diploma</td>
+<td data-label="Set by" style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Ministry of Investment</td>
+<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Trains crews in eight crafts, from a first workshop to a diploma</td>
 </tr>
 <tr class="caa-row" style="border-top: 1px solid #26221F">
 <td style="padding: 22px 16px 22px 0; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G2</td>
 <td style="padding: 18px 20px 18px 0; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">7,000</span><span style="display: block; color: #C9C1B5">film students by 2030</span></td>
-<td style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Ministry of Investment</td>
-<td style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>One- and two-year programmes, fed by short courses and residencies</td>
+<td data-label="Set by" style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Ministry of Investment</td>
+<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>One- and two-year programmes, fed by short courses and residencies</td>
 </tr>
 <tr class="caa-row" style="border-top: 1px solid #26221F">
 <td style="padding: 22px 16px 22px 0; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G3</td>
 <td style="padding: 18px 20px 18px 0; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">80</span><span style="display: block; color: #C9C1B5">feature films a year by 2030</span></td>
-<td style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Ministry of Investment</td>
-<td style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Students make films in crews, and leave with the collaborators to make the next one</td>
+<td data-label="Set by" style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Ministry of Investment</td>
+<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Students make films in crews, and leave with the collaborators to make the next one</td>
 </tr>
 <tr class="caa-row" style="border-top: 1px solid #26221F">
 <td style="padding: 22px 16px 22px 0; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G4</td>
 <td style="padding: 18px 20px 18px 0; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">ACADEMY</span><span style="display: block; color: #C9C1B5">a film academy, offered to investors</span></td>
-<td style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Invest Saudi</td>
-<td style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Tests the programme, capacity and building such an academy needs</td>
+<td data-label="Set by" style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Invest Saudi</td>
+<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Tests the programme, capacity and building such an academy needs</td>
 </tr>
 <tr class="caa-row" style="border-top: 1px solid #26221F">
 <td style="padding: 22px 16px 22px 0; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G5</td>
 <td style="padding: 18px 20px 18px 0; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">L4–L5</span><span style="display: block; color: #C9C1B5">licensed cultural training</span></td>
-<td style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Ministry of Culture, with TVTC and ETEC</td>
-<td style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Diplomas planned at Level 4 and Level 5 through a licensed institute</td>
+<td data-label="Set by" style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Ministry of Culture, with TVTC and ETEC</td>
+<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Diplomas planned at Level 4 and Level 5 through a licensed institute</td>
 </tr>
 <tr class="caa-row" style="border-top: 1px solid #26221F">
 <td style="padding: 22px 16px 22px 0; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G6</td>
 <td style="padding: 18px 20px 18px 0; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">INSTITUTE</span><span style="display: block; color: #C9C1B5">a Saudi Film Institute</span></td>
-<td style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Film Commission strategy, 2021</td>
-<td style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Explores what such a place could be, in Jeddah</td>
+<td data-label="Set by" style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Film Commission strategy, 2021</td>
+<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Explores what such a place could be, in Jeddah</td>
 </tr>
 </tbody>
 </table>
@@ -360,11 +517,6 @@ a:focus-visible{outline:2px solid #F08A3C;outline-offset:3px}
 </footer>
 
 </div>
-<script>
-(function(){var t0=Date.now(),els=document.querySelectorAll('.caa-tc');if(!els.length)return;
-function pad(n){return String(n).padStart(2,'0')}
-function tick(){var s=Math.floor((Date.now()-t0)/1000),tc='00:'+pad(Math.floor(s/60)%60)+':'+pad(s%60)+':'+pad((s*7)%24);for(var i=0;i<els.length;i++)els[i].textContent=tc}
-tick();setInterval(tick,1000);})();
-</script>
+<script src="../assets/site.js" defer></script>
 </body>
 </html>
