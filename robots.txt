@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ibrarchitech.com/sitemap.xml
