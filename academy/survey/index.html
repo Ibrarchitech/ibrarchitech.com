@@ -137,11 +137,28 @@ html[dir=rtl] h1{padding-top:10px}
 html:not(.caa-no3d) .caa-stack > div:not(.caa-stage),html:not(.caa-no3d) .caa-globebox > :not(.caa-stage){visibility:hidden}
 .caa-no3d .caa-stage{display:none}
 .caa-off > :not(.caa-stage){visibility:visible !important}.caa-off > .caa-stage{display:none !important}
-.caa-stack3d{bottom:70px}
-.caa-enter{position:absolute;z-index:3;display:block;color:transparent;font-size:1px;overflow:hidden;border-radius:2px}
-.caa-enter:focus-visible{outline:2px solid #F08A3C;outline-offset:4px}
+.caa-stack3d{bottom:70px;cursor:grab;outline:none}
+@media (min-width: 981px){.caa-five{grid-template-columns:repeat(6,minmax(0,1fr)) !important}.caa-five > .caa-tile{grid-column:span 2}.caa-five > .caa-tile:nth-child(n+4){grid-column:span 3}}
+@media (min-width: 641px) and (max-width: 980px){.caa-five{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.caa-five > .caa-tile:last-child{grid-column:1 / -1}}
+.caa-stack3d.is-dragging{cursor:grabbing}
+.caa-stack3d:focus-visible{outline:2px solid #F08A3C;outline-offset:-2px}
+.caa-enter.is-off{pointer-events:none}
 .caa-craft-tag{position:absolute;left:0;top:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .25s;white-space:nowrap;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:20px;letter-spacing:1px;color:#EDE6DA;background:rgba(0,0,0,.72);padding:4px 10px 4px 8px;border-left:3px solid #F08A3C}
 html[dir=rtl] .caa-craft-tag{font-family:'IBM Plex Sans Arabic',sans-serif;letter-spacing:0;border-left:0;border-right:3px solid #F08A3C}
+.caa-cf-ctrl{position:absolute;left:50%;top:auto;bottom:auto;transform:translateX(-50%);z-index:3;display:flex;gap:16px}
+.caa-cf-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(237,230,218,.4);background:rgba(14,12,11,.7);color:#EDE6DA;display:grid;place-items:center;padding:0;cursor:pointer;transition:border-color .2s,color .2s}
+.caa-cf-btn:hover{border-color:#F08A3C;color:#F08A3C}
+.caa-cf-btn:focus-visible{outline:2px solid #F08A3C;outline-offset:3px}
+.caa-sr{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html.caa-3d .caa-legend li{cursor:pointer;transition:color .25s}
+html.caa-3d .caa-legend li:hover,html.caa-3d .caa-legend li.is-on{color:#EDE6DA}
+html.caa-3d .caa-legend li.is-on{text-decoration:underline;text-decoration-color:#F08A3C;text-decoration-thickness:2px;text-underline-offset:6px}
+html.caa-3d .caa-legend li:focus-visible{outline:1px solid #F08A3C;outline-offset:3px}
+@keyframes caa-swipe{0%,15%{transform:translateX(0)}50%,65%{transform:translateX(14px)}100%{transform:translateX(0)}}
+.caa-swipe{animation:caa-swipe 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.caa-swipe{animation:none}}
+.caa-enter{position:absolute;z-index:3;display:block;color:transparent;font-size:1px;overflow:hidden;border-radius:2px}
+.caa-enter:focus-visible{outline:2px solid #F08A3C;outline-offset:4px}
 .caa-globe3d{cursor:grab}
 .caa-globe3d.is-dragging{cursor:grabbing}
 .caa-pin,.caa-mk,.caa-area{position:absolute;left:0;top:0;z-index:2;pointer-events:none;transition:opacity .3s}
@@ -210,6 +227,7 @@ html[dir=rtl] .caa-goal-l{font-family:inherit;letter-spacing:0;font-size:14px}
 html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5px}
 @media (max-width: 760px){
   .caa-stack3d{bottom:100px}
+  .caa-stack{height:480px !important}
   .caa-exist{margin-top:80px}
   .caa-exist-list{grid-template-columns:minmax(0,1fr)}
   .caa-btag{padding:6px 9px}
@@ -251,7 +269,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 
 <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column">
 <p style="margin: 0 0 14px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #EDE6DA; border-bottom: 1px solid #EDE6DA; align-self: flex-start; padding-bottom: 6px">TAKE PART · THE SURVEY</p>
-<h1 style="margin: 0; font-family: 'EB Garamond', Georgia, serif; font-weight: 500; font-size: clamp(54px, 5.8vw, 92px); line-height: 0.95; letter-spacing: -1px">Help shape a place for film in Jeddah.</h1>
+<h1 style="margin: 0; font-family: 'EB Garamond', Georgia, serif; font-weight: 500; font-size: clamp(54px, 5.8vw, 92px); line-height: 0.95; letter-spacing: -1px">Help shape a hub for film in Jeddah.</h1>
 <p style="margin: 32px 0 0; font-size: 19px; line-height: 1.6; color: #C9C1B5; max-width: 560px">One short survey, for anyone who makes films, studies film or wants to start. It asks how you find people to work with, what you would join and what space you are missing. The answers set what the building holds and how big it is.</p>
 <div style="margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); max-width: 600px; border-top: 1px solid rgba(237,230,218,0.3)">
 <div style="padding: 14px 16px 0 0; display: flex; flex-direction: column; gap: 6px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #8C8580">DURATION</p><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 30px; line-height: 1">8 MIN</p></div>
@@ -283,8 +301,8 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 </div>
 </div>
 <div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 30px">
-<div style="display: flex; gap: 14px; align-items: flex-start"><span aria-hidden="true" style="flex: 0 0 34px; height: 1px; margin-top: 8px; background: #F08A3C"></span><div style="display: flex; flex-direction: column; gap: 6px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #8C8580">ROUTE 2A · WORKING IN FILM</p><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 34px; line-height: 1">30<span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 12px; letter-spacing: 2px; color: #8C8580"> NEEDED</span></p></div></div>
-<div style="display: flex; gap: 14px; align-items: flex-start"><span aria-hidden="true" style="flex: 0 0 34px; height: 1px; margin-top: 8px; background: #EDE6DA"></span><div style="display: flex; flex-direction: column; gap: 6px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #8C8580">ROUTE 2B · STUDYING OR STARTING</p><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 34px; line-height: 1">30<span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 12px; letter-spacing: 2px; color: #8C8580"> NEEDED</span></p></div></div>
+<div style="display: flex; gap: 14px; align-items: flex-start"><span aria-hidden="true" style="flex: 0 0 34px; height: 1px; margin-top: 8px; background: #F08A3C"></span><div style="display: flex; flex-direction: column; gap: 6px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #8C8580">ROUTE 2A · WORKING IN FILM</p></div></div>
+<div style="display: flex; gap: 14px; align-items: flex-start"><span aria-hidden="true" style="flex: 0 0 34px; height: 1px; margin-top: 8px; background: #EDE6DA"></span><div style="display: flex; flex-direction: column; gap: 6px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #8C8580">ROUTE 2B · STUDYING OR STARTING</p></div></div>
 <div style="display: flex; gap: 14px; align-items: flex-start"><span aria-hidden="true" style="flex: 0 0 34px; height: 1px; margin-top: 8px; background: #3E9C97"></span><div style="display: flex; flex-direction: column; gap: 6px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #8C8580">ROUTE 2C · YOUNG MAKERS</p><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 34px; line-height: 1">—<span style="font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 12px; letter-spacing: 2px; color: #8C8580"> INDICATIVE ONLY</span></p></div></div>
 </div>
 </div>
@@ -292,7 +310,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 </section>
 
 <section id="route" style="position: relative; padding: 130px clamp(20px, 3.4vw, 48px) 120px; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 55% 260px at 50% 100%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 60% 40% at 50% 50%, rgba(240,138,60,0.06), transparent 70%), #000000">
-<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  SC 01  —  THE ROUTE</p>
+<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  CH 01  —  THE ROUTE</p>
 <div style="display: flex; flex-wrap: wrap; gap: 24px 56px; align-items: flex-end; justify-content: space-between">
 <h2 style="margin: 0; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06; max-width: 700px">One survey, three paths.</h2>
 <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #C9C1B5; max-width: 520px">Everyone answers the same opening and closing sections. In the middle, the questions split by where you are: working in film, studying or starting out, or still at school.</p>
@@ -377,16 +395,16 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
 
 <div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 24px; position: relative; z-index: 2">
-<p style="margin: 0; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  SC 02  —  THE FIRST SCREEN</p>
-<h2 style="margin: 0; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06">One channel is on.</h2>
-<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #C9C1B5; max-width: 460px">The first screen checks your age and consent. After that, the survey follows the path that fits you.</p>
+<p style="margin: 0; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  CH 02  —  THE SURVEY</p>
+<h2 style="margin: 0; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06">Let’s shape the building together!</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #C9C1B5; max-width: 460px">Let us see the world through your eyes, and explore together what the future of cinematic arts education could look like.</p>
 <div style="position: relative; border: 1px solid #26221F; background: rgba(0,0,0,0.7); padding: 22px 24px; display: flex; flex-direction: column; gap: 10px; max-width: 480px">
 <span aria-hidden="true" style="position: absolute; left: -1px; top: -1px; width: 14px; height: 14px; border-left: 1px solid #3E9C97; border-top: 1px solid #3E9C97"></span>
 <span aria-hidden="true" style="position: absolute; right: -1px; top: -1px; width: 14px; height: 14px; border-right: 1px solid #3E9C97; border-top: 1px solid #3E9C97"></span>
 <span aria-hidden="true" style="position: absolute; left: -1px; bottom: -1px; width: 14px; height: 14px; border-left: 1px solid #3E9C97; border-bottom: 1px solid #3E9C97"></span>
 <span aria-hidden="true" style="position: absolute; right: -1px; bottom: -1px; width: 14px; height: 14px; border-right: 1px solid #3E9C97; border-bottom: 1px solid #3E9C97"></span>
 <p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #3E9C97">YOUR ANSWERS</p>
-<p style="margin: 0; font-size: 16px; line-height: 1.6; color: #C9C1B5">No names or contact details are asked for. Results are reported only as totals. Anyone under 18 takes part with a parent’s or guardian’s agreement, and anyone can stop at any time.</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: #C9C1B5">No names or contact details are asked for. Anyone under 18 takes part with a parent’s or guardian’s agreement.</p>
 </div>
 </div>
 
@@ -401,7 +419,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(60,30,10,0.07) 0 2px, transparent 2px 4px)"></div>
 <div style="position: relative; display: flex; flex-direction: column; gap: 16px">
 <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; align-items: baseline">
-<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2.5px; color: rgba(14,12,11,0.65)">CH 00 · THE SURVEY · 8 MIN</p>
+<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2.5px; color: rgba(14,12,11,0.65)">CH 02 · THE SURVEY · 8 MIN</p>
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfFOpvLXfzCHd27e1Rg00rJJf09jGZJ7nhDmX9ZnwPrmAkglA/viewform" target="_blank" rel="noopener" style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2.5px; color: rgba(14,12,11,0.65); color: #0E0C0B; font-weight: 600; text-decoration: underline; text-underline-offset: 3px">OPEN FULL SCREEN ↗</a>
 </div>
 <iframe class="caa-form" src="https://docs.google.com/forms/d/e/1FAIpQLSfFOpvLXfzCHd27e1Rg00rJJf09jGZJ7nhDmX9ZnwPrmAkglA/viewform?embedded=true" title="Film in Jeddah: a short survey · الأفلام في جدة: استبيان قصير" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="display: block; width: 100%; border: 0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 0 0 1px rgba(14,12,11,0.18)">Loading the survey…</iframe>
@@ -419,10 +437,10 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <section id="pass-it-on" style="position: relative; overflow: hidden; padding: 130px clamp(20px, 3.4vw, 48px) 130px; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 55% 260px at 50% 100%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 38% 46% at 74% 50%, rgba(240,138,60,0.16), transparent 70%), #000000">
 <div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
 <div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 22px; position: relative; z-index: 2">
-<p style="margin: 0; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  SC 03  —  PASS IT ON</p>
-<h2 style="margin: 0; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06; max-width: 620px">Know someone who makes films in Jeddah?</h2>
-<p style="margin: 0; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 26px; line-height: 1.4; color: #EDE6DA; max-width: 520px">The survey is only as good as the people it reaches.</p>
-<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #C9C1B5; max-width: 520px">Send it to a crew group, a classmate, a school film club.</p>
+<p style="margin: 0; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  CH 03  —  PASS IT ON</p>
+<h2 style="margin: 0; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06; max-width: 620px">Know someone who makes films or is interested in filmmaking?</h2>
+<p style="margin: 0; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 26px; line-height: 1.4; color: #EDE6DA; max-width: 520px">The survey is only as good as the people it reaches and the answers they give.</p>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #C9C1B5; max-width: 520px">Send it to a crew group, a classmate, a school film club, or anyone in the field.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px">
 <a href="https://wa.me/?text=Film%20in%20Jeddah%3A%20a%20short%20survey%2C%208%20minutes%2C%20Arabic%20or%20English%20%C2%B7%20%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85%20%D9%81%D9%8A%20%D8%AC%D8%AF%D8%A9%3A%20%D8%A7%D8%B3%D8%AA%D8%A8%D9%8A%D8%A7%D9%86%20%D9%82%D8%B5%D9%8A%D8%B1%D8%8C%208%20%D8%AF%D9%82%D8%A7%D8%A6%D9%82%D8%8C%20%D8%A8%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%A3%D9%88%20%D8%A7%D9%84%D8%A5%D9%86%D8%AC%D9%84%D9%8A%D8%B2%D9%8A%D8%A9%0Ahttps%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfFOpvLXfzCHd27e1Rg00rJJf09jGZJ7nhDmX9ZnwPrmAkglA%2Fviewform" target="_blank" rel="noopener" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; font-weight: 600; background: #F08A3C; color: #0E0C0B; text-decoration: none; padding: 16px 26px; border-radius: 999px">SHARE ON WHATSAPP</a>
 <a href="mailto:?subject=Film%20in%20Jeddah%3A%20a%20short%20survey&amp;body=Film%20in%20Jeddah%3A%20a%20short%20survey%2C%208%20minutes%2C%20Arabic%20or%20English%20%C2%B7%20%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85%20%D9%81%D9%8A%20%D8%AC%D8%AF%D8%A9%3A%20%D8%A7%D8%B3%D8%AA%D8%A8%D9%8A%D8%A7%D9%86%20%D9%82%D8%B5%D9%8A%D8%B1%D8%8C%208%20%D8%AF%D9%82%D8%A7%D8%A6%D9%82%D8%8C%20%D8%A8%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%A3%D9%88%20%D8%A7%D9%84%D8%A5%D9%86%D8%AC%D9%84%D9%8A%D8%B2%D9%8A%D8%A9%0Ahttps%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfFOpvLXfzCHd27e1Rg00rJJf09jGZJ7nhDmX9ZnwPrmAkglA%2Fviewform" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #EDE6DA; text-decoration: none; padding: 15px 25px; border-radius: 999px; border: 1px solid #4A4541">SEND BY EMAIL</a>
@@ -451,7 +469,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <span aria-hidden="true" style="position: absolute; right: 0; bottom: 0; width: 22px; height: 22px; border-right: 2px solid #F08A3C; border-bottom: 2px solid #F08A3C"></span>
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfFOpvLXfzCHd27e1Rg00rJJf09jGZJ7nhDmX9ZnwPrmAkglA/viewform" target="_blank" rel="noopener" aria-label="Open the survey" style="display: block; width: 190px; height: 190px; box-shadow: 0 0 60px rgba(240,138,60,0.3)"><svg role="img" aria-label="QR code: the survey" viewBox="0 0 49 49" width="190" height="190" shape-rendering="crispEdges" style="display: block"><rect width="49" height="49" fill="#EDE6DA"></rect><path d="M4 4h7v1h-7zM13 4h3v1h-3zM17 4h2v1h-2zM20 4h1v1h-1zM24 4h1v1h-1zM26 4h3v1h-3zM30 4h1v1h-1zM33 4h1v1h-1zM35 4h2v1h-2zM38 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM13 5h1v1h-1zM15 5h3v1h-3zM20 5h1v1h-1zM22 5h1v1h-1zM24 5h3v1h-3zM28 5h1v1h-1zM30 5h2v1h-2zM38 5h1v1h-1zM44 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM12 6h3v1h-3zM16 6h2v1h-2zM20 6h1v1h-1zM24 6h5v1h-5zM30 6h2v1h-2zM34 6h1v1h-1zM38 6h1v1h-1zM40 6h3v1h-3zM44 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h2v1h-2zM16 7h1v1h-1zM18 7h3v1h-3zM22 7h4v1h-4zM27 7h1v1h-1zM29 7h3v1h-3zM38 7h1v1h-1zM40 7h3v1h-3zM44 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h8v1h-8zM23 8h3v1h-3zM27 8h1v1h-1zM30 8h3v1h-3zM34 8h1v1h-1zM36 8h1v1h-1zM38 8h1v1h-1zM40 8h3v1h-3zM44 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h3v1h-3zM18 9h4v1h-4zM25 9h2v1h-2zM29 9h4v1h-4zM36 9h1v1h-1zM38 9h1v1h-1zM44 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM34 10h1v1h-1zM36 10h1v1h-1zM38 10h7v1h-7zM12 11h2v1h-2zM15 11h4v1h-4zM23 11h5v1h-5zM30 11h2v1h-2zM34 11h1v1h-1zM4 12h1v1h-1zM6 12h5v1h-5zM16 12h1v1h-1zM18 12h2v1h-2zM21 12h1v1h-1zM27 12h5v1h-5zM33 12h1v1h-1zM38 12h5v1h-5zM4 13h1v1h-1zM6 13h1v1h-1zM8 13h1v1h-1zM11 13h2v1h-2zM14 13h2v1h-2zM17 13h3v1h-3zM21 13h3v1h-3zM25 13h1v1h-1zM27 13h1v1h-1zM29 13h1v1h-1zM32 13h1v1h-1zM34 13h3v1h-3zM39 13h2v1h-2zM42 13h1v1h-1zM44 13h1v1h-1zM5 14h2v1h-2zM8 14h1v1h-1zM10 14h2v1h-2zM13 14h1v1h-1zM15 14h2v1h-2zM18 14h1v1h-1zM21 14h2v1h-2zM24 14h2v1h-2zM28 14h1v1h-1zM30 14h2v1h-2zM33 14h1v1h-1zM36 14h1v1h-1zM38 14h3v1h-3zM6 15h1v1h-1zM8 15h1v1h-1zM11 15h1v1h-1zM15 15h3v1h-3zM19 15h1v1h-1zM22 15h1v1h-1zM24 15h2v1h-2zM32 15h1v1h-1zM34 15h3v1h-3zM40 15h2v1h-2zM43 15h2v1h-2zM8 16h1v1h-1zM10 16h2v1h-2zM14 16h1v1h-1zM17 16h4v1h-4zM23 16h1v1h-1zM26 16h3v1h-3zM30 16h1v1h-1zM35 16h1v1h-1zM41 16h2v1h-2zM44 16h1v1h-1zM4 17h1v1h-1zM8 17h2v1h-2zM11 17h1v1h-1zM14 17h2v1h-2zM17 17h3v1h-3zM21 17h2v1h-2zM24 17h4v1h-4zM29 17h2v1h-2zM32 17h1v1h-1zM34 17h4v1h-4zM40 17h3v1h-3zM44 17h1v1h-1zM4 18h3v1h-3zM8 18h3v1h-3zM12 18h1v1h-1zM14 18h1v1h-1zM17 18h1v1h-1zM19 18h2v1h-2zM22 18h2v1h-2zM26 18h1v1h-1zM28 18h1v1h-1zM31 18h4v1h-4zM36 18h2v1h-2zM40 18h2v1h-2zM43 18h1v1h-1zM7 19h1v1h-1zM9 19h1v1h-1zM11 19h1v1h-1zM13 19h1v1h-1zM15 19h2v1h-2zM22 19h7v1h-7zM30 19h2v1h-2zM34 19h3v1h-3zM38 19h4v1h-4zM43 19h1v1h-1zM4 20h1v1h-1zM10 20h2v1h-2zM13 20h5v1h-5zM20 20h4v1h-4zM26 20h1v1h-1zM28 20h3v1h-3zM32 20h1v1h-1zM36 20h2v1h-2zM39 20h1v1h-1zM41 20h2v1h-2zM5 21h3v1h-3zM11 21h1v1h-1zM15 21h7v1h-7zM23 21h3v1h-3zM34 21h2v1h-2zM38 21h3v1h-3zM43 21h2v1h-2zM4 22h1v1h-1zM7 22h1v1h-1zM9 22h4v1h-4zM15 22h1v1h-1zM19 22h3v1h-3zM25 22h1v1h-1zM28 22h4v1h-4zM34 22h1v1h-1zM38 22h1v1h-1zM40 22h1v1h-1zM42 22h1v1h-1zM5 23h2v1h-2zM12 23h2v1h-2zM15 23h2v1h-2zM18 23h2v1h-2zM21 23h2v1h-2zM24 23h2v1h-2zM27 23h2v1h-2zM30 23h1v1h-1zM32 23h1v1h-1zM38 23h1v1h-1zM40 23h1v1h-1zM43 23h2v1h-2zM5 24h2v1h-2zM10 24h1v1h-1zM12 24h2v1h-2zM15 24h4v1h-4zM25 24h1v1h-1zM27 24h8v1h-8zM36 24h1v1h-1zM41 24h3v1h-3zM4 25h2v1h-2zM7 25h2v1h-2zM12 25h1v1h-1zM14 25h3v1h-3zM19 25h2v1h-2zM22 25h3v1h-3zM29 25h1v1h-1zM31 25h5v1h-5zM37 25h5v1h-5zM43 25h2v1h-2zM5 26h4v1h-4zM10 26h2v1h-2zM13 26h1v1h-1zM15 26h3v1h-3zM21 26h1v1h-1zM26 26h1v1h-1zM28 26h4v1h-4zM33 26h1v1h-1zM36 26h2v1h-2zM41 26h2v1h-2zM5 27h2v1h-2zM8 27h2v1h-2zM12 27h1v1h-1zM14 27h1v1h-1zM17 27h1v1h-1zM19 27h1v1h-1zM22 27h1v1h-1zM25 27h1v1h-1zM27 27h1v1h-1zM30 27h2v1h-2zM35 27h4v1h-4zM40 27h2v1h-2zM44 27h1v1h-1zM5 28h1v1h-1zM7 28h1v1h-1zM10 28h1v1h-1zM12 28h1v1h-1zM14 28h1v1h-1zM19 28h1v1h-1zM21 28h1v1h-1zM23 28h1v1h-1zM26 28h1v1h-1zM28 28h4v1h-4zM33 28h1v1h-1zM35 28h1v1h-1zM39 28h1v1h-1zM41 28h1v1h-1zM43 28h1v1h-1zM4 29h4v1h-4zM9 29h1v1h-1zM20 29h1v1h-1zM22 29h4v1h-4zM27 29h1v1h-1zM34 29h2v1h-2zM37 29h2v1h-2zM40 29h2v1h-2zM43 29h2v1h-2zM5 30h2v1h-2zM8 30h1v1h-1zM10 30h1v1h-1zM15 30h2v1h-2zM19 30h4v1h-4zM24 30h1v1h-1zM26 30h1v1h-1zM29 30h1v1h-1zM31 30h2v1h-2zM34 30h1v1h-1zM36 30h2v1h-2zM39 30h2v1h-2zM11 31h3v1h-3zM15 31h1v1h-1zM17 31h1v1h-1zM19 31h2v1h-2zM23 31h3v1h-3zM27 31h1v1h-1zM30 31h1v1h-1zM35 31h2v1h-2zM39 31h3v1h-3zM43 31h2v1h-2zM5 32h1v1h-1zM8 32h1v1h-1zM10 32h3v1h-3zM14 32h1v1h-1zM16 32h1v1h-1zM19 32h2v1h-2zM23 32h4v1h-4zM29 32h3v1h-3zM35 32h1v1h-1zM41 32h4v1h-4zM4 33h1v1h-1zM6 33h4v1h-4zM12 33h2v1h-2zM16 33h3v1h-3zM20 33h3v1h-3zM27 33h1v1h-1zM29 33h1v1h-1zM32 33h9v1h-9zM43 33h2v1h-2zM4 34h1v1h-1zM7 34h1v1h-1zM10 34h2v1h-2zM16 34h1v1h-1zM22 34h1v1h-1zM24 34h1v1h-1zM26 34h1v1h-1zM29 34h1v1h-1zM31 34h1v1h-1zM33 34h2v1h-2zM36 34h4v1h-4zM41 34h2v1h-2zM4 35h1v1h-1zM7 35h1v1h-1zM9 35h1v1h-1zM11 35h3v1h-3zM17 35h1v1h-1zM25 35h1v1h-1zM27 35h1v1h-1zM32 35h1v1h-1zM34 35h2v1h-2zM37 35h3v1h-3zM43 35h1v1h-1zM4 36h1v1h-1zM7 36h1v1h-1zM9 36h3v1h-3zM13 36h2v1h-2zM17 36h1v1h-1zM19 36h2v1h-2zM26 36h2v1h-2zM30 36h2v1h-2zM35 36h6v1h-6zM42 36h3v1h-3zM12 37h1v1h-1zM16 37h3v1h-3zM24 37h1v1h-1zM32 37h5v1h-5zM40 37h2v1h-2zM44 37h1v1h-1zM4 38h7v1h-7zM16 38h1v1h-1zM22 38h1v1h-1zM26 38h1v1h-1zM29 38h3v1h-3zM33 38h1v1h-1zM35 38h2v1h-2zM38 38h1v1h-1zM40 38h3v1h-3zM4 39h1v1h-1zM10 39h1v1h-1zM12 39h2v1h-2zM18 39h3v1h-3zM27 39h1v1h-1zM36 39h1v1h-1zM40 39h2v1h-2zM44 39h1v1h-1zM4 40h1v1h-1zM6 40h3v1h-3zM10 40h1v1h-1zM12 40h4v1h-4zM17 40h1v1h-1zM20 40h1v1h-1zM22 40h5v1h-5zM28 40h3v1h-3zM32 40h2v1h-2zM36 40h5v1h-5zM42 40h1v1h-1zM44 40h1v1h-1zM4 41h1v1h-1zM6 41h3v1h-3zM10 41h1v1h-1zM12 41h1v1h-1zM15 41h1v1h-1zM17 41h3v1h-3zM21 41h1v1h-1zM24 41h2v1h-2zM29 41h1v1h-1zM32 41h1v1h-1zM35 41h3v1h-3zM39 41h1v1h-1zM43 41h2v1h-2zM4 42h1v1h-1zM6 42h3v1h-3zM10 42h1v1h-1zM12 42h3v1h-3zM17 42h3v1h-3zM28 42h8v1h-8zM37 42h4v1h-4zM4 43h1v1h-1zM10 43h1v1h-1zM14 43h2v1h-2zM18 43h1v1h-1zM21 43h2v1h-2zM24 43h4v1h-4zM30 43h2v1h-2zM36 43h1v1h-1zM40 43h2v1h-2zM43 43h1v1h-1zM4 44h7v1h-7zM12 44h1v1h-1zM14 44h1v1h-1zM22 44h2v1h-2zM26 44h1v1h-1zM28 44h3v1h-3zM32 44h2v1h-2zM39 44h4v1h-4z" fill="#0E0C0B"></path></svg></a>
 </div>
-<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #8C8580">FOR POSTERS AND SCREENINGS</p>
+<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #8C8580">THE SURVEY<br>LET’S EXPLORE TOGETHER!</p>
 </div>
 </div>
 </div>
@@ -459,8 +477,8 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 </section>
 
 <section id="help" style="position: relative; padding: 130px clamp(20px, 3.4vw, 48px) 140px; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 55% 260px at 50% 100%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 75% 34% at 50% 40%, rgba(240,138,60,0.10), transparent 75%), linear-gradient(180deg, #000000 0%, #170f0b 40%, #1c130e 62%, #000000 100%)">
-<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  SC 04  —  OTHER WAYS TO HELP</p>
-<h2 style="margin: 0 0 64px; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06; max-width: 900px">Three more ways in.</h2>
+<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  CH 04  —  OTHER WAYS TO HELP</p>
+<h2 style="margin: 0 0 64px; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06; max-width: 900px">Three more ways to contribute.</h2>
 <div style="perspective: 2200px">
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; transform: rotateX(7deg); transform-origin: 50% 0%">
 
@@ -469,8 +487,8 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <svg width="100%" height="110" viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><g stroke-width="4" stroke-linecap="round" stroke-dasharray="0.1 8"><line x1="6" y1="45" x2="6" y2="65" stroke="#4A4541"></line><line x1="18" y1="37" x2="18" y2="73" stroke="#4A4541"></line><line x1="30" y1="29" x2="30" y2="81" stroke="#8C8580"></line><line x1="42" y1="41" x2="42" y2="69" stroke="#8C8580"></line><line x1="54" y1="21" x2="54" y2="89" stroke="#EDE6DA"></line><line x1="66" y1="13" x2="66" y2="97" stroke="#EDE6DA"></line><line x1="78" y1="33" x2="78" y2="77" stroke="#EDE6DA"></line><line x1="90" y1="45" x2="90" y2="65" stroke="#8C8580"></line><line x1="102" y1="25" x2="102" y2="85" stroke="#EDE6DA"></line><line x1="114" y1="9" x2="114" y2="101" stroke="#F08A3C"></line><line x1="126" y1="17" x2="126" y2="93" stroke="#F08A3C"></line><line x1="138" y1="33" x2="138" y2="77" stroke="#EDE6DA"></line><line x1="150" y1="49" x2="150" y2="61" stroke="#8C8580"></line><line x1="162" y1="29" x2="162" y2="81" stroke="#EDE6DA"></line><line x1="174" y1="13" x2="174" y2="97" stroke="#F08A3C"></line><line x1="186" y1="25" x2="186" y2="85" stroke="#EDE6DA"></line><line x1="198" y1="41" x2="198" y2="69" stroke="#8C8580"></line><line x1="210" y1="21" x2="210" y2="89" stroke="#EDE6DA"></line><line x1="222" y1="33" x2="222" y2="77" stroke="#8C8580"></line><line x1="234" y1="45" x2="234" y2="65" stroke="#8C8580"></line><line x1="246" y1="37" x2="246" y2="73" stroke="#4A4541"></line><line x1="258" y1="49" x2="258" y2="61" stroke="#4A4541"></line><line x1="270" y1="41" x2="270" y2="69" stroke="#4A4541"></line><line x1="282" y1="49" x2="282" y2="61" stroke="#4A4541"></line><line x1="294" y1="53" x2="294" y2="57" stroke="#4A4541"></line></g></svg>
 <div style="display: flex; flex-direction: column; gap: 10px">
 <p style="margin: 0; font-size: 22px; font-weight: 600">A short conversation</p>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">If you work in film, tell me how your last crew came together. About 15 minutes.</p>
-<a href="mailto:ibrarchitech@gmail.com?subject=Conversation" style="margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; text-decoration: none">OFFER A CONVERSATION →</a>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">If you work in film, tell me about your work. About 15 minutes.</p>
+<a href="mailto:ibrarchitech@gmail.com?subject=Conversation" style="margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; text-decoration: none">CONTACT ME →</a>
 </div>
 </div>
 
@@ -489,22 +507,22 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 </div>
 <div style="display: flex; flex-direction: column; gap: 10px">
 <p style="margin: 0; font-size: 22px; font-weight: 600">A day on your set</p>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">Fieldwork means watching how crews use space. Quiet, in the corner, out of shot.</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">Fieldwork means watching how crews work naturally, and what gets in their way.</p>
 <a href="mailto:ibrarchitech@gmail.com?subject=Set%20visit" style="margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; text-decoration: none">INVITE ME TO A SHOOT →</a>
 </div>
 </div>
 
 <div class="caa-tile" style="background: linear-gradient(165deg, #201c19, #131110 70%); border-radius: 22px; padding: 26px; min-height: 380px; box-shadow: 0 30px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(237,230,218,0.07); display: flex; flex-direction: column; justify-content: space-between; gap: 22px">
-<div style="display: flex; justify-content: space-between; align-items: baseline"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2.5px; color: #C9C1B5">03  A SPACE</p><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 28px; line-height: 1">1 PHOTO</p></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2.5px; color: #C9C1B5">03  A SPACE</p><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 28px; line-height: 1">TEXT · VOICE</p></div>
 <div aria-hidden="true" style="position: relative; height: 110px; border-radius: 12% / 20%; overflow: hidden; background: radial-gradient(ellipse at 50% 46%, #FFE0C2 0%, #F5A866 22%, #E07230 48%, #6a2a0e 82%, #2a1006 100%); box-shadow: 0 0 50px rgba(240,138,60,0.35), inset 0 0 36px rgba(0,0,0,0.5)">
 <div style="position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0 2px, transparent 2px 4px)"></div>
 <p style="margin: 0; position: absolute; left: 14px; top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: rgba(14,12,11,0.7)">CH 09 · YOURS</p>
 <p style="margin: 0; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 300; color: rgba(14,12,11,0.8)">+</p>
 </div>
 <div style="display: flex; flex-direction: column; gap: 10px">
-<p style="margin: 0; font-size: 22px; font-weight: 600">A space you love</p>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">A studio, a room, a corner where you did your best creative work. A photo and a line on why.</p>
-<a href="mailto:ibrarchitech@gmail.com?subject=A%20space" style="margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; text-decoration: none">SEND A SPACE →</a>
+<p style="margin: 0; font-size: 22px; font-weight: 600">A space you wish existed</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">Send me a line or a voice note about a space you wish existed, or one that never worked for you.</p>
+<a href="mailto:ibrarchitech@gmail.com?subject=A%20space" style="margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; text-decoration: none">TELL ME MORE →</a>
 </div>
 </div>
 
@@ -514,7 +532,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 
 <footer style="position: relative; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), #000000; padding: 64px clamp(20px, 3.4vw, 48px) 60px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; align-items: flex-end">
 <p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; line-height: 2; color: #8C8580">CINEMATIC ARTS ACADEMY · ARCHITECTURE GRADUATION PROJECT<br>IBRAHIM A. FALLATAH · KING ABDULAZIZ UNIVERSITY · 2026–2027</p>
-<p style="margin: 0; font-size: 14px; color: #8C8580; line-height: 1.6; max-width: 460px">A student research project, not affiliated with any government body.</p>
+<p style="margin: 0; font-size: 14px; color: #8C8580; line-height: 1.6; max-width: 460px">A student architecture thesis, not affiliated with any government body.</p>
 <a href="../" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; text-decoration: none">← BACK TO HOME</a>
 </footer>
 

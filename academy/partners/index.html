@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; frame-src https://docs.google.com; base-uri 'none'; form-action 'none'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>For partners · Cinematic Arts Academy</title>
-<meta name="description" content="A model for a film academy in Jeddah, built on evidence: the research, the goals it answers and how to work with it.">
+<meta name="description" content="A model for a cinematic arts academy in Jeddah: the research, the goals it answers and how to work with it.">
 <meta name="author" content="Ibrahim A. Fallatah">
 <link rel="canonical" href="https://ibrarchitech.com/academy/partners/">
 <link rel="alternate" hreflang="en" href="https://ibrarchitech.com/academy/partners/">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Cinematic Arts Academy">
 <meta property="og:title" content="For partners · Cinematic Arts Academy">
-<meta property="og:description" content="A model for a film academy in Jeddah, built on evidence: the research, the goals it answers and how to work with it.">
+<meta property="og:description" content="A model for a cinematic arts academy in Jeddah: the research, the goals it answers and how to work with it.">
 <meta property="og:url" content="https://ibrarchitech.com/academy/partners/">
 <meta property="og:image" content="https://ibrarchitech.com/academy/assets/share.jpg">
 <meta property="og:image:width" content="1200">
@@ -134,11 +134,28 @@ html[dir=rtl] h1{padding-top:10px}
 html:not(.caa-no3d) .caa-stack > div:not(.caa-stage),html:not(.caa-no3d) .caa-globebox > :not(.caa-stage){visibility:hidden}
 .caa-no3d .caa-stage{display:none}
 .caa-off > :not(.caa-stage){visibility:visible !important}.caa-off > .caa-stage{display:none !important}
-.caa-stack3d{bottom:70px}
-.caa-enter{position:absolute;z-index:3;display:block;color:transparent;font-size:1px;overflow:hidden;border-radius:2px}
-.caa-enter:focus-visible{outline:2px solid #F08A3C;outline-offset:4px}
+.caa-stack3d{bottom:70px;cursor:grab;outline:none}
+@media (min-width: 981px){.caa-five{grid-template-columns:repeat(6,minmax(0,1fr)) !important}.caa-five > .caa-tile{grid-column:span 2}.caa-five > .caa-tile:nth-child(n+4){grid-column:span 3}}
+@media (min-width: 641px) and (max-width: 980px){.caa-five{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.caa-five > .caa-tile:last-child{grid-column:1 / -1}}
+.caa-stack3d.is-dragging{cursor:grabbing}
+.caa-stack3d:focus-visible{outline:2px solid #F08A3C;outline-offset:-2px}
+.caa-enter.is-off{pointer-events:none}
 .caa-craft-tag{position:absolute;left:0;top:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .25s;white-space:nowrap;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:20px;letter-spacing:1px;color:#EDE6DA;background:rgba(0,0,0,.72);padding:4px 10px 4px 8px;border-left:3px solid #F08A3C}
 html[dir=rtl] .caa-craft-tag{font-family:'IBM Plex Sans Arabic',sans-serif;letter-spacing:0;border-left:0;border-right:3px solid #F08A3C}
+.caa-cf-ctrl{position:absolute;left:50%;top:auto;bottom:auto;transform:translateX(-50%);z-index:3;display:flex;gap:16px}
+.caa-cf-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(237,230,218,.4);background:rgba(14,12,11,.7);color:#EDE6DA;display:grid;place-items:center;padding:0;cursor:pointer;transition:border-color .2s,color .2s}
+.caa-cf-btn:hover{border-color:#F08A3C;color:#F08A3C}
+.caa-cf-btn:focus-visible{outline:2px solid #F08A3C;outline-offset:3px}
+.caa-sr{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html.caa-3d .caa-legend li{cursor:pointer;transition:color .25s}
+html.caa-3d .caa-legend li:hover,html.caa-3d .caa-legend li.is-on{color:#EDE6DA}
+html.caa-3d .caa-legend li.is-on{text-decoration:underline;text-decoration-color:#F08A3C;text-decoration-thickness:2px;text-underline-offset:6px}
+html.caa-3d .caa-legend li:focus-visible{outline:1px solid #F08A3C;outline-offset:3px}
+@keyframes caa-swipe{0%,15%{transform:translateX(0)}50%,65%{transform:translateX(14px)}100%{transform:translateX(0)}}
+.caa-swipe{animation:caa-swipe 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.caa-swipe{animation:none}}
+.caa-enter{position:absolute;z-index:3;display:block;color:transparent;font-size:1px;overflow:hidden;border-radius:2px}
+.caa-enter:focus-visible{outline:2px solid #F08A3C;outline-offset:4px}
 .caa-globe3d{cursor:grab}
 .caa-globe3d.is-dragging{cursor:grabbing}
 .caa-pin,.caa-mk,.caa-area{position:absolute;left:0;top:0;z-index:2;pointer-events:none;transition:opacity .3s}
@@ -207,6 +224,7 @@ html[dir=rtl] .caa-goal-l{font-family:inherit;letter-spacing:0;font-size:14px}
 html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5px}
 @media (max-width: 760px){
   .caa-stack3d{bottom:100px}
+  .caa-stack{height:480px !important}
   .caa-exist{margin-top:80px}
   .caa-exist-list{grid-template-columns:minmax(0,1fr)}
   .caa-btag{padding:6px 9px}
@@ -247,8 +265,8 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 
 <div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column">
 <p style="margin: 0 0 14px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #EDE6DA; border-bottom: 1px solid #EDE6DA; align-self: flex-start; padding-bottom: 6px">FOR PARTNERS · PROJECT BRIEF</p>
-<h1 style="margin: 0; font-family: 'EB Garamond', Georgia, serif; font-weight: 500; font-size: clamp(52px, 5.4vw, 86px); line-height: 0.96; letter-spacing: -1px">A model for a film academy in Jeddah, built on evidence.</h1>
-<p style="margin: 32px 0 0; font-size: 19px; line-height: 1.6; color: #C9C1B5; max-width: 580px">This graduation project studies what a hub for cinematic arts in Jeddah would need: who it serves, what it teaches, how many it holds and what the building must do. The research is open. Partners are welcome to review it, add to it and use it.</p>
+<h1 style="margin: 0; font-family: 'EB Garamond', Georgia, serif; font-weight: 500; font-size: clamp(52px, 5.4vw, 86px); line-height: 0.96; letter-spacing: -1px">A model for a cinematic arts academy in Jeddah.</h1>
+<p style="margin: 32px 0 0; font-size: 19px; line-height: 1.6; color: #C9C1B5; max-width: 580px">This architecture graduation thesis studies a hub for cinematic arts in Jeddah, and what the future of the field could look like.</p>
 <div style="margin-top: 40px; display: flex; flex-wrap: wrap; gap: 14px">
 <a href="#brief" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; font-weight: 600; color: #0E0C0B; background: #F08A3C; text-decoration: none; padding: 16px 26px; border-radius: 999px">THE PROJECT BRIEF ↓</a>
 <a href="mailto:ibrarchitech@gmail.com" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #EDE6DA; text-decoration: none; padding: 15px 25px; border-radius: 999px; border: 1px solid #4A4541">REQUEST A MEETING</a>
@@ -298,12 +316,12 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 </section>
 
 <section id="market" style="position: relative; padding: 130px clamp(20px, 3.4vw, 48px) 120px; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 55% 260px at 50% 100%, rgba(240,138,60,0.17), transparent), #000000">
-<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  SC 01  —  THE MARKET</p>
+<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  CH 01  —  THE MARKET</p>
 <h2 style="margin: 0 0 64px; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06; max-width: 900px">The audience and the companies are here. The people are the target.</h2>
 <div style="border-bottom: 1px solid rgba(237,230,218,0.35); display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))">
 <div style="padding: 0 26px 28px 0; display: flex; flex-direction: column; gap: 14px">
 <p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: clamp(56px, 5vw, 78px); line-height: 1">18.8M</p>
-<div style="display: flex; align-items: center; gap: 10px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #0E0C0B; background: #EDE6DA; padding: 4px 8px">RANK 01</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #8C8580">IN THE REGION</span></div>
+<div style="display: flex; align-items: center; gap: 10px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #0E0C0B; background: #EDE6DA; padding: 4px 8px">RANK 01</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; color: #8C8580">IN THE MENA REGION</span></div>
 <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #C9C1B5">cinema tickets in 2025, the region’s highest box office</p>
 </div>
 <div style="padding: 0 26px 28px; border-left: 1px solid rgba(237,230,218,0.2); display: flex; flex-direction: column; gap: 14px">
@@ -329,7 +347,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 </section>
 
 <section id="goals" style="position: relative; padding: 130px clamp(20px, 3.4vw, 48px) 130px; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 55% 260px at 50% 100%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 60% 50% at 20% 60%, rgba(62,156,151,0.10), transparent 70%), #000000">
-<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  SC 02  —  NATIONAL GOALS</p>
+<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  CH 02  —  NATIONAL GOALS</p>
 <h2 style="margin: 0 0 56px; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06; max-width: 980px">Each part of the model answers a goal the sector has already set.</h2>
 <div style="position: relative; border: 1px solid #26221F; background: rgba(0,0,0,0.7); padding: 26px 30px 10px">
 <span aria-hidden="true" style="position: absolute; left: -1px; top: -1px; width: 16px; height: 16px; border-left: 1px solid #EDE6DA; border-top: 1px solid #EDE6DA"></span>
@@ -355,13 +373,13 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <td style="padding: 22px 16px 22px 0; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G1</td>
 <td style="padding: 18px 20px 18px 0; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">10,000</span><span style="display: block; color: #C9C1B5">people working in film by 2030</span></td>
 <td data-label="Set by" style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Ministry of Investment</td>
-<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Trains crews in eight crafts, from a first workshop to a diploma</td>
+<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Trains all eight crafts together, in crews</td>
 </tr>
 <tr class="caa-row" style="border-top: 1px solid #26221F">
 <td style="padding: 22px 16px 22px 0; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G2</td>
 <td style="padding: 18px 20px 18px 0; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">7,000</span><span style="display: block; color: #C9C1B5">film students by 2030</span></td>
 <td data-label="Set by" style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Ministry of Investment</td>
-<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>One- and two-year programmes, fed by short courses and residencies</td>
+<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>One- and two-year programmes, accompanied by short courses and residencies</td>
 </tr>
 <tr class="caa-row" style="border-top: 1px solid #26221F">
 <td style="padding: 22px 16px 22px 0; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G3</td>
@@ -385,7 +403,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <td style="padding: 22px 16px 22px 0; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G6</td>
 <td style="padding: 18px 20px 18px 0; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">INSTITUTE</span><span style="display: block; color: #C9C1B5">a Saudi Film Institute</span></td>
 <td data-label="Set by" style="padding: 22px 20px 22px 0; vertical-align: top; color: #8C8580">Film Commission strategy, 2021</td>
-<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Explores what such a place could be, in Jeddah</td>
+<td data-label="What the academy does" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">→ </span>Explores what such a place could be</td>
 </tr>
 </tbody>
 </table>
@@ -395,7 +413,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 </section>
 
 <section id="research" style="position: relative; padding: 130px clamp(20px, 3.4vw, 48px) 140px; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 55% 260px at 50% 100%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 75% 32% at 50% 30%, rgba(240,138,60,0.14), transparent 75%), linear-gradient(180deg, #000000 0%, #1c130e 30%, #22160f 55%, #000000 100%)">
-<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  SC 03  —  THE RESEARCH SO FAR</p>
+<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  CH 03  —  THE RESEARCH SO FAR</p>
 <h2 style="margin: 0 0 64px; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06; max-width: 900px">What the research has set so far.</h2>
 <div style="perspective: 2200px">
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; transform: rotateX(7deg); transform-origin: 50% 0%">
@@ -409,7 +427,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <div class="caa-tile" style="background: linear-gradient(165deg, #201c19, #131110 70%); border-radius: 22px; padding: 26px; min-height: 400px; box-shadow: 0 30px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(237,230,218,0.07); display: flex; flex-direction: column; justify-content: space-between; gap: 18px">
 <div style="display: flex; justify-content: space-between; align-items: flex-start"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2.5px; color: #C9C1B5">02  LADDER</p><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 64px; line-height: 0.9">6</p></div>
 <svg width="200" height="125" viewBox="0 0 160 100" aria-hidden="true" style="align-self: center"><path d="M14 90 A66 66 0 0 1 146 90" fill="none" stroke="#4A4541" stroke-width="4" stroke-linecap="round" stroke-dasharray="0.1 6"></path><path d="M14 90 A66 66 0 0 1 146 90" fill="none" stroke="#2E2926" stroke-width="1"></path><circle cx="17.2" cy="69.6" r="4.5" fill="#F08A3C"></circle><circle cx="41.2" cy="36.6" r="4.5" fill="#F08A3C"></circle><circle cx="80" cy="24" r="4.5" fill="#F08A3C"></circle><circle cx="118.8" cy="36.6" r="4.5" fill="#F08A3C"></circle><circle cx="142.8" cy="69.6" r="9" fill="none" stroke="#F08A3C" stroke-width="1.5"></circle><circle cx="142.8" cy="69.6" r="4.5" fill="#F08A3C"></circle><text x="80" y="72" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8" letter-spacing="1.5" fill="#8C8580">HOURS → YEARS</text></svg>
-<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; font-size: 20px; font-weight: 600">steps on one ladder</p><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #8C8580">From screenings and talks to a diploma, with competitions alongside. Anyone can start; the diplomas are earned by work.</p></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; font-size: 20px; font-weight: 600">steps on one ladder</p><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #8C8580">From screenings, talks and competitions up to a diploma: a way in for every level and every schedule.</p></div>
 </div>
 
 <div class="caa-tile" style="background: linear-gradient(165deg, #201c19, #131110 70%); border-radius: 22px; padding: 26px; min-height: 400px; box-shadow: 0 30px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(237,230,218,0.07); display: flex; flex-direction: column; justify-content: space-between; gap: 18px">
@@ -441,7 +459,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <g stroke-width="1" fill="none"><path d="M107.4 22.6 H140" stroke="#4A4541"></path><path d="M107.5 53.6 H140" stroke="#8C8580"></path><path d="M91.3 74.6 L100 84 H140" stroke="#EDE6DA"></path><path d="M72 72 L112 115 H140" stroke="#F08A3C"></path></g>
 <g font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.5"><text x="146" y="26" fill="#8C8580">INTERNATIONAL</text><text x="146" y="57" fill="#8C8580">MIDDLE EAST</text><text x="146" y="88" fill="#C9C1B5">GULF</text><text x="146" y="119" fill="#F08A3C">SAUDI</text></g>
 </svg>
-<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; font-size: 20px; font-weight: 600">regions of examples</p><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #8C8580">International, Middle East, Gulf and Saudi: where the model exists, and where it does not.</p></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; font-size: 20px; font-weight: 600">regions of examples</p><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #8C8580">The model exists internationally and, more recently, in MENA; in the Arabian Gulf it exists only in fragments.</p></div>
 </div>
 
 </div>
@@ -449,14 +467,14 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 </section>
 
 <section id="help" style="position: relative; padding: 130px clamp(20px, 3.4vw, 48px) 130px; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 55% 260px at 50% 100%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 60% 40% at 50% 62%, rgba(62,156,151,0.12), transparent 70%), #000000">
-<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  SC 04  —  WHERE PARTNERS COULD HELP</p>
-<h2 style="margin: 0 0 72px; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06; max-width: 900px">Four ways in, from an hour’s review to a set visit.</h2>
+<p style="margin: 0 0 28px; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  CH 04  —  WHERE PARTNERS COULD HELP</p>
+<h2 style="margin: 0 0 72px; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.06; max-width: 900px">Four ways in, from a 30-minute interview to a set visit.</h2>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px 0">
 <div style="position: relative; border-top: 1px solid #3E9C97; padding: 30px 26px 0 0; display: flex; flex-direction: column; gap: 10px">
 <span aria-hidden="true" style="position: absolute; left: 0; top: -7px; width: 13px; height: 13px; border-radius: 50%; background: #3E9C97; box-shadow: 0 0 18px rgba(62,156,151,0.8)"></span>
-<div style="display: flex; align-items: baseline; gap: 14px"><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 40px; line-height: 1">01</p><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #3E9C97">REVIEW · 1 HR</p></div>
-<p style="margin: 0; font-size: 21px; font-weight: 600">Review the brief</p>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">An hour with the student, and your comments on the programme and capacity.</p>
+<div style="display: flex; align-items: baseline; gap: 14px"><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 40px; line-height: 1">01</p><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #3E9C97">INTERVIEW · 30–60 MIN</p></div>
+<p style="margin: 0; font-size: 21px; font-weight: 600">Take part in an interview</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">Some of your time for your insight, perspective and data about the field.</p>
 </div>
 <div style="position: relative; border-top: 1px solid #3E9C97; padding: 30px 26px 0 0; display: flex; flex-direction: column; gap: 10px">
 <span aria-hidden="true" style="position: absolute; left: 0; top: -7px; width: 13px; height: 13px; border-radius: 50%; background: #3E9C97; box-shadow: 0 0 18px rgba(62,156,151,0.8)"></span>
@@ -468,7 +486,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <span aria-hidden="true" style="position: absolute; left: 0; top: -7px; width: 13px; height: 13px; border-radius: 50%; background: #3E9C97; box-shadow: 0 0 18px rgba(62,156,151,0.8)"></span>
 <div style="display: flex; align-items: baseline; gap: 14px"><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 40px; line-height: 1">03</p><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #3E9C97">REACH</p></div>
 <p style="margin: 0; font-size: 21px; font-weight: 600">Extend the survey’s reach</p>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">Share it with the trainees, members or crews you work with.</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">Share it with the trainees, members or crews from your network.</p>
 <a href="../survey/" style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; text-decoration: none">SEE THE SURVEY →</a>
 </div>
 <div style="position: relative; border-top: 1px solid #3E9C97; padding: 30px 0 0; display: flex; flex-direction: column; gap: 10px">
@@ -495,8 +513,8 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 </div>
 </div>
 <div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 22px; position: relative; z-index: 2">
-<p style="margin: 0; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  SC 05  —  THE BRIEF</p>
-<h2 style="margin: 0; font-size: clamp(34px, 3.4vw, 50px); font-weight: 600; line-height: 1.08; max-width: 620px">The problem, the model and the building, in one short brief.</h2>
+<p style="margin: 0; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 3px; color: #8C8580"><span style="color: #F08A3C">■</span>  CH 05  —  THE BRIEF</p>
+<h2 style="margin: 0; font-size: clamp(34px, 3.4vw, 50px); font-weight: 600; line-height: 1.08; max-width: 620px">The problem, the model and the proposal, in one short brief.</h2>
 <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #C9C1B5">It is being written now and will be updated as the research moves on. Ask for a copy and I’ll send it as soon as it’s ready.</p>
 <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 520px; border-top: 1px solid rgba(237,230,218,0.3)">
 <div style="padding: 14px 14px 0 0; display: flex; flex-direction: column; gap: 6px"><p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2.5px; color: #8C8580">FORMAT</p><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 28px; line-height: 1">PDF</p></div>
@@ -513,7 +531,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 
 <footer style="position: relative; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), #000000; padding: 64px clamp(20px, 3.4vw, 48px) 60px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; align-items: flex-end">
 <p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; line-height: 2; color: #8C8580">CINEMATIC ARTS ACADEMY · ARCHITECTURE GRADUATION PROJECT<br>IBRAHIM A. FALLATAH · KING ABDULAZIZ UNIVERSITY · 2026–2027</p>
-<p style="margin: 0; font-size: 14px; color: #8C8580; line-height: 1.6; max-width: 560px">A student research project, not affiliated with any government body; the goals above are quoted from the published sources named.</p>
+<p style="margin: 0; font-size: 14px; color: #8C8580; line-height: 1.6; max-width: 560px">A student architecture thesis, not affiliated with any government body; the goals above are quoted from the published sources named.</p>
 <a href="../" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 2px; text-decoration: none">← BACK TO HOME</a>
 </footer>
 

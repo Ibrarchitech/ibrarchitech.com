@@ -120,50 +120,76 @@ function dots(list, mat) {              // list of {p:[x,y,z], c:Color, a, s, k}
   return new THREE.Points(g, mat);
 }
 
-/* ================================================================== 1. FILM FRAMES */
-const CRAFTS = ['WRITING', 'DIRECTING', 'PRODUCING', 'PERFORMANCE', 'CINEMATOGRAPHY', 'PRODUCTION DESIGN', 'EDITING', 'SOUND'];
-function frameTexture(kind, borderAlpha) {
-  const W = 512, H = 358, c = document.createElement('canvas'); c.width = W; c.height = H;
-  const g = c.getContext('2d');
+/* ================================================================== 1. THE CRAFTS: a stack of film frames, one per craft */
+const CRAFTS = ['CINEMATOGRAPHY', 'PERFORMANCE', 'WRITING', 'DIRECTING', 'PRODUCING', 'PRODUCTION DESIGN', 'EDITING', 'SOUND'];
+const TEX_W = isPhone ? 768 : 1024, TEX_H = Math.round(TEX_W * 0.7);
+const CARD_W = 4, CARD_H = 2.8;
+const BTN = { w: 410 / 1024, h: 76 / 717, cy: 0.74 };        // the drawn button on the title card, as fractions of the card
+
+function cardCanvas() { const c = document.createElement('canvas'); c.width = TEX_W; c.height = TEX_H; return c; }
+function texOf(c) { const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; }
+function fitFont(g, text, weight, family, size, maxW) {
+  for (; size > 10; size -= 2) { g.font = `${weight} ${size}px ${family}`; if (g.measureText(text).width <= maxW) break; }
+  return size;
+}
+function drawCraft(c, kind, num, name, rtl) {
+  const W = c.width, H = c.height, g = c.getContext('2d'), u = W / 1024;
+  g.save(); g.clearRect(0, 0, W, H);
   const spec = [
-    [0.62, 0.38, ['rgba(237,230,218,0.9)', 0], ['rgba(110,104,96,0.85)', 0.30], ['#121110', 0.70]],   // cream
-    [0.48, 0.58, ['rgba(62,156,151,0.95)', 0], ['rgba(22,59,57,0.9)', 0.40], ['#0b0a09', 0.78]],      // teal
-    [0.32, 0.42, ['rgba(240,138,60,0.95)', 0], ['rgba(120,48,18,0.9)', 0.34], ['#120c09', 0.72]],     // orange
+    [0.66, 0.32, ['rgba(237,230,218,0.82)', 0], ['rgba(110,104,96,0.78)', 0.30], ['#121110', 0.74]],   // cream
+    [0.62, 0.36, ['rgba(62,156,151,0.95)', 0], ['rgba(22,59,57,0.9)', 0.42], ['#0b0a09', 0.80]],      // teal
+    [0.64, 0.34, ['rgba(240,138,60,0.95)', 0], ['rgba(120,48,18,0.9)', 0.36], ['#120c09', 0.76]],     // orange
   ][kind];
-  const cx = spec[0] * W, cy = spec[1] * H, R = Math.hypot(Math.max(cx, W - cx), Math.max(cy, H - cy));
+  const cx = (rtl ? 1 - spec[0] : spec[0]) * W, cy = spec[1] * H, R = Math.hypot(Math.max(cx, W - cx), Math.max(cy, H - cy));
   const grd = g.createRadialGradient(cx, cy, 0, cx, cy, R);
   for (const [col, at] of spec.slice(2)) grd.addColorStop(at, col);
   grd.addColorStop(1, spec[4][0]);
+  g.fillStyle = '#0b0a09'; g.fillRect(0, 0, W, H);                      // an opaque card: nothing behind shows through
   g.fillStyle = grd; g.fillRect(0, 0, W, H);
   g.fillStyle = 'rgba(14,12,11,0.6)';                                   // halftone
-  for (let y = 0; y < H; y += 6.4) for (let x = 0; x < W; x += 6.4) { g.beginPath(); g.arc(x, y, 1.6, 0, 7); g.fill(); }
+  for (let y = 0; y < H; y += 12.8 * u) for (let x = 0; x < W; x += 12.8 * u) { g.beginPath(); g.arc(x, y, 3.2 * u, 0, 7); g.fill(); }
   g.fillStyle = 'rgba(0,0,0,0.2)';                                      // scan lines
-  for (let y = 0; y < H; y += 3.84) g.fillRect(0, y, W, 1.28);
-  g.strokeStyle = `rgba(237,230,218,${borderAlpha})`; g.lineWidth = 2; g.strokeRect(1, 1, W - 2, H - 2);
-  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
-  return t;
+  for (let y = 0; y < H; y += 7.68 * u) g.fillRect(0, y, W, 2.56 * u);
+  const sh = g.createLinearGradient(0, H * 0.38, 0, H);                 // shade under the name
+  sh.addColorStop(0, 'rgba(8,7,6,0)'); sh.addColorStop(1, 'rgba(8,7,6,0.9)');
+  g.fillStyle = sh; g.fillRect(0, H * 0.38, W, H * 0.62);
+  g.strokeStyle = 'rgba(237,230,218,0.5)'; g.lineWidth = 3 * u; g.strokeRect(1.5 * u, 1.5 * u, W - 3 * u, H - 3 * u);
+  const pad = 58 * u, edge = rtl ? W - pad : pad;
+  g.fillStyle = '#F08A3C'; g.fillRect(rtl ? edge - 8 * u : edge, pad, 8 * u, 64 * u);
+  g.textBaseline = 'alphabetic'; g.direction = rtl ? 'rtl' : 'ltr'; g.textAlign = rtl ? 'right' : 'left'; g.fillStyle = '#EDE6DA';
+  if (rtl) { g.font = `600 ${34 * u}px "IBM Plex Sans Arabic", Tahoma, sans-serif`; g.fillText('الحِرفة', edge - 30 * u, pad + 30 * u); }
+  else { g.font = `500 ${26 * u}px "IBM Plex Mono", monospace`; g.letterSpacing = `${6 * u}px`; g.fillText('CRAFT', edge + 30 * u, pad + 26 * u); g.letterSpacing = '0px'; }
+  g.font = `600 ${44 * u}px "IBM Plex Mono", monospace`; g.fillStyle = '#F08A3C';
+  g.direction = 'ltr'; g.fillText(num + ' / 08', rtl ? edge - 30 * u : edge + 30 * u, pad + 70 * u); g.direction = rtl ? 'rtl' : 'ltr';
+  g.fillStyle = '#EDE6DA';
+  if (rtl) { fitFont(g, name, 700, '"IBM Plex Sans Arabic", Tahoma, sans-serif', 150 * u, W - 2 * pad); g.fillText(name, edge, H - pad - 18 * u); }
+  else { fitFont(g, name, 700, '"Barlow Condensed", sans-serif', 168 * u, W - 2 * pad); g.fillText(name, edge, H - pad); }
+  g.restore();
 }
-function frontTexture() {
-  const W = 1024, H = 717, c = document.createElement('canvas'); c.width = W; c.height = H;
-  const g = c.getContext('2d');
+function drawTitle(c, label, rtl) {
+  const W = c.width, H = c.height, g = c.getContext('2d'), u = W / 1024;
+  g.save(); g.clearRect(0, 0, W, H);
   const grd = g.createRadialGradient(W / 2, H * 0.42, 0, W / 2, H * 0.42, Math.hypot(W / 2, H * 0.58));
   grd.addColorStop(0, '#221d19'); grd.addColorStop(0.78, '#0b0a09'); grd.addColorStop(1, '#0b0a09');
   g.fillStyle = grd; g.fillRect(0, 0, W, H);
-  g.strokeStyle = 'rgba(237,230,218,0.55)'; g.lineWidth = 3; g.strokeRect(1.5, 1.5, W - 3, H - 3);
-  const ox = W / 2, oy = H * 0.40, s = 2.0;                             // the eight-ring rosette
+  g.strokeStyle = 'rgba(237,230,218,0.55)'; g.lineWidth = 3 * u; g.strokeRect(1.5 * u, 1.5 * u, W - 3 * u, H - 3 * u);
+  const ox = W / 2, oy = H * 0.40, s = 2.0 * u;                         // the eight-ring rosette
   for (let k = 0; k < 8; k++) {
     const a = -Math.PI / 2 + k * Math.PI / 4;
     g.beginPath(); g.arc(ox + Math.cos(a) * 26 * s, oy + Math.sin(a) * 26 * s, 30 * s, 0, 7);
-    g.strokeStyle = k === 7 ? '#3E9C97' : '#EDE6DA'; g.lineWidth = k === 7 ? 2.8 : 2; g.stroke();
+    g.strokeStyle = k === 7 ? '#3E9C97' : '#EDE6DA'; g.lineWidth = (k === 7 ? 2.8 : 2) * u; g.stroke();
   }
   g.beginPath(); g.arc(ox, oy, 7 * s, 0, 7); g.fillStyle = '#F08A3C'; g.fill();
-  g.strokeStyle = 'rgba(237,230,218,0.6)'; g.lineWidth = 2;               // the button outline (the real link sits on top)
-  g.strokeRect(W / 2 - 205, H * 0.74 - 38, 410, 76);
-  g.fillStyle = '#EDE6DA'; g.font = '500 25px "IBM Plex Mono", monospace'; g.textAlign = 'center'; g.textBaseline = 'middle';
-  g.letterSpacing = '7px'; g.fillText('ENTER THE PROJECT', W / 2 + 3, H * 0.74 + 1);
-  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
-  return t;
+  const bw = BTN.w * W, bh = BTN.h * H, by = BTN.cy * H;                 // the button outline (the real link sits on top)
+  g.fillStyle = 'rgba(240,138,60,0.12)'; g.fillRect(W / 2 - bw / 2, by - bh / 2, bw, bh);
+  g.strokeStyle = '#F08A3C'; g.lineWidth = 2.5 * u; g.strokeRect(W / 2 - bw / 2, by - bh / 2, bw, bh);
+  g.fillStyle = '#EDE6DA'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.direction = rtl ? 'rtl' : 'ltr';
+  if (rtl) g.font = `600 ${32 * u}px "IBM Plex Sans Arabic", Tahoma, sans-serif`;
+  else { g.font = `500 ${25 * u}px "IBM Plex Mono", monospace`; g.letterSpacing = `${7 * u}px`; }
+  g.fillText(rtl ? label : label.toUpperCase(), W / 2 + (rtl ? 0 : 3 * u), by + (rtl ? 3 : 1) * u);
+  g.restore();
 }
+
 function labelTexture(num) {
   const c = document.createElement('canvas'); c.width = 256; c.height = 96;
   const g = c.getContext('2d');
@@ -174,100 +200,196 @@ function labelTexture(num) {
   return t;
 }
 
+/* The stack keeps its diagonal, receding into depth, and now moves like a pile of folders: swipe or drag
+   sideways (or use the buttons, the arrow keys, a sideways trackpad scroll, or the list of crafts) and the
+   front card slides out and goes to the back while the next one comes forward. It loops, and moves on by
+   itself when nobody touches it. Scrolling the page still fans the pile out. */
 function initStack(el, opts = {}) {
-  const rtl = !!opts.rtl;
+  const rtl = !!opts.rtl, dir = rtl ? -1 : 1, side = rtl ? -1 : 1;
+  const names = opts.names || CRAFTS, N = names.length + 1;
   const s = makeStage(el, 26);
   const { scene, camera } = s;
   const pivot = new THREE.Group(); scene.add(pivot);
   const C = new THREE.Vector3(4.6, 0.1, -6);            // middle of the stack
-  pivot.position.copy(C);
-  const tex = [frameTexture(0, 0.3), frameTexture(1, 0.25), frameTexture(2, 0.22)];
-  const kinds = [0, 1, 2, 0, 1, 2, 0, 1];               // 01 cream · 02 teal · 03 orange …
-  const opac = [0.92, 0.84, 0.74, 0.64, 0.56, 0.48, 0.40, 0.32];
-  const geo = new THREE.PlaneGeometry(4, 2.8);
-  const frames = [];
-  const front = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: frontTexture(), transparent: true }));
-  pivot.add(front);
-  for (let i = 1; i <= 8; i++) {
-    const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: tex[kinds[i - 1]], transparent: true, opacity: opac[i - 1], depthWrite: false }));
-    const lab = new THREE.Mesh(new THREE.PlaneGeometry(0.72, 0.27), new THREE.MeshBasicMaterial({ map: labelTexture('0' + i), transparent: true, depthWrite: false, opacity: Math.min(1, opac[i - 1] + 0.15) }));
-    lab.position.set(rtl ? 2 - 0.36 : -2 + 0.36, 1.4 + 0.25, 0.001);
-    m.add(lab);
-    m.userData = { i, lift: 0, label: lab };
-    m.renderOrder = -i;
-    pivot.add(m); frames.push(m);
+  const enter = el.querySelector('.caa-enter');
+  const label = enter ? enter.textContent.trim() : 'Tell me more!';
+  const geo = new THREE.PlaneGeometry(CARD_W, CARD_H), tabGeo = new THREE.PlaneGeometry(0.72, 0.27);
+  const kinds = [0, 1, 2, 0, 1, 2, 0, 1];
+  const cards = [];
+  const paint = () => cards.forEach((c, i) => {
+    if (i === 0) drawTitle(c.canvas, label, rtl); else drawCraft(c.canvas, kinds[i - 1], String(i).padStart(2, '0'), names[i - 1], rtl);
+    c.tex.needsUpdate = true;
+  });
+  for (let i = 0; i < N; i++) {
+    const canvas = cardCanvas(), tex = texOf(canvas);
+    const mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false }));
+    let tab = null;
+    if (i > 0) {                                          // the numbered tab on each folder
+      tab = new THREE.Mesh(tabGeo, new THREE.MeshBasicMaterial({ map: labelTexture(String(i).padStart(2, '0')), transparent: true, depthWrite: false }));
+      tab.position.set(rtl ? 2 - 0.36 : -2 + 0.36, 1.4 + 0.25, 0.001);
+      mesh.add(tab);
+    }
+    mesh.userData = { i, lift: 0, tab };
+    pivot.add(mesh);
+    cards.push({ mesh, canvas, tex });
   }
-  front.renderOrder = 1;
-  const enter = el.querySelector('.caa-enter'), tag = el.querySelector('.caa-craft-tag');
-  const pointer = { x: 0, y: 0, tx: 0, ty: 0, inside: false };
-  let hovered = null, tapUntil = 0, dragYaw = 0, dragging = null;
-  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  paint();
+  if (document.fonts) Promise.all([
+    document.fonts.load('700 100px "Barlow Condensed"'), document.fonts.load('600 64px "Barlow Condensed"'), document.fonts.load('500 30px "IBM Plex Mono"'), document.fonts.load('600 30px "IBM Plex Mono"'),
+    rtl ? document.fonts.load('700 100px "IBM Plex Sans Arabic"', 'الحِرفة') : null, rtl ? document.fonts.load('600 30px "IBM Plex Sans Arabic"', 'اعرف') : null,
+  ]).then(() => { paint(); cards.forEach((c) => { const t = c.mesh.userData.tab; if (t) { const old = t.material.map; t.material.map = labelTexture(String(c.mesh.userData.i).padStart(2, '0')); old.dispose(); } }); }, paint);
 
+  // controls: two buttons, the list of crafts under the stack, keys, a name tag on hover, and a quiet line for screen readers
+  const L = rtl ? { prev: 'الحرفة السابقة', next: 'الحرفة التالية', of: 'من' } : { prev: 'Previous craft', next: 'Next craft', of: 'of' };
+  const chev = (d) => `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="${d > 0 ? 'M9 5l7 7-7 7' : 'M15 5l-7 7 7 7'}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const ctrl = document.createElement('div');
+  ctrl.className = 'caa-cf-ctrl';
+  ctrl.innerHTML = `<button type="button" class="caa-cf-btn" data-step="-1" aria-label="${L.prev}">${chev(-dir)}</button>`
+    + `<button type="button" class="caa-cf-btn" data-step="1" aria-label="${L.next}">${chev(dir)}</button>`;
+  el.appendChild(ctrl);
+  const tag = document.createElement('div'); tag.className = 'caa-craft-tag'; tag.setAttribute('aria-hidden', 'true'); el.appendChild(tag);
+  const live = document.createElement('p'); live.className = 'caa-sr'; live.setAttribute('aria-live', 'polite'); el.appendChild(live);
+  el.tabIndex = 0;
+  const legend = [...((el.closest('.caa-stack') || el.parentElement).querySelectorAll('.caa-legend li'))];
+
+  let pos = 0, target = 0, idle = 0, lastIdx = -1, said = false, fan = 0, hovered = null;
+  const pointer = { x: 0, y: 0, tx: 0, ty: 0, inside: false };
+  const mod = (a, n) => ((a % n) + n) % n;
+  const slot = (i, p = pos) => mod(i - p + 1, N) - 1;    // 0 = front, up to N-1 at the back; below 0 = leaving the front
+  const touch = () => { idle = -5; };                     // after a hand-made move, wait longer before moving on
+  const go = (k) => { target = Math.round(target) + k; touch(); said = true; };
+  const goTo = (i) => { const cur = Math.round(target); let d = mod(i - mod(cur, N), N); if (d > N / 2) d -= N; target = cur + d; touch(); said = true; };
+  ctrl.addEventListener('click', (e) => { const b = e.target.closest('[data-step]'); if (b) go(+b.dataset.step); });
+  ctrl.addEventListener('pointerdown', (e) => e.stopPropagation());
+  legend.forEach((li, k) => {
+    li.tabIndex = 0; li.setAttribute('role', 'button');
+    li.addEventListener('click', () => goTo(k + 1));
+    li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goTo(k + 1); } });
+  });
+  el.addEventListener('keydown', (e) => {
+    if (e.target !== el) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(dir); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-dir); }
+    else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+  });
+  if (enter) enter.addEventListener('focus', () => goTo(0));
+
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
   function pick(ev) {
     const r = el.getBoundingClientRect();
     ndc.set((ev.clientX - r.left) / r.width * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera);
-    const hit = ray.intersectObjects([front, ...frames], false)[0];
-    return hit && hit.object !== front ? hit.object : null;
+    const hit = ray.intersectObjects(cards.map((c) => c.mesh), true).find((h) => h.object.material.opacity > 0.15);
+    return hit ? (hit.object.userData.i !== undefined ? hit.object : hit.object.parent) : null;
   }
-  el.addEventListener('pointermove', (ev) => {
+  // drag or swipe sideways (vertical swipes still scroll the page: touch-action is pan-y)
+  let drag = null;
+  const stepPx = () => Math.max(110, s.w * 0.28);
+  el.addEventListener('pointermove', (e) => {
     const r = el.getBoundingClientRect();
-    pointer.tx = (ev.clientX - r.left) / r.width * 2 - 1; pointer.ty = (ev.clientY - r.top) / r.height * 2 - 1;
-    if (dragging) { dragYaw = clamp(dragging.yaw + (ev.clientX - dragging.x) / r.width * 1.2, -0.6, 0.6); return; }
-    if (ev.pointerType === 'mouse') { hovered = pick(ev); el.style.cursor = hovered ? 'pointer' : ''; }
+    if (e.pointerType === 'mouse') { pointer.tx = (e.clientX - r.left) / r.width * 2 - 1; pointer.ty = (e.clientY - r.top) / r.height * 2 - 1; }
+    if (drag && e.pointerId === drag.id) {
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (!drag.on) {
+        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { drag.on = true; try { el.setPointerCapture(e.pointerId); } catch (_) {} el.classList.add('is-dragging'); }
+        else if (Math.abs(dy) > 12) { drag = null; return; }
+        else return;
+      }
+      target = drag.t0 - dir * dx / stepPx(); pos = target;
+      const now = performance.now(); drag.vx = (e.clientX - drag.lx) / Math.max(1, now - drag.lt) * 1000; drag.lx = e.clientX; drag.lt = now;
+      touch(); hovered = null;
+      return;
+    }
+    if (e.pointerType === 'mouse') { hovered = pick(e); el.style.cursor = hovered ? 'pointer' : ''; }
   });
-  el.addEventListener('pointerenter', (ev) => { if (ev.pointerType === 'mouse') pointer.inside = true; });
-  el.addEventListener('pointerleave', () => { pointer.inside = false; pointer.tx = 0; pointer.ty = 0; if (Date.now() > tapUntil) hovered = null; });
-  el.addEventListener('pointerdown', (ev) => { if (ev.target === enter) return; dragging = { x: ev.clientX, y: ev.clientY, yaw: dragYaw, moved: false }; });
-  window.addEventListener('pointerup', (ev) => {
-    if (!dragging) return;
-    const moved = Math.abs(ev.clientX - dragging.x) + Math.abs(ev.clientY - dragging.y) > 8;
-    dragging = null;
-    if (!moved && ev.target !== enter) { const f = pick(ev); if (f) { hovered = f; tapUntil = Date.now() + 2600; } }
+  el.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') pointer.inside = true; });
+  el.addEventListener('pointerleave', () => { pointer.inside = false; pointer.tx = 0; pointer.ty = 0; hovered = null; });
+  el.addEventListener('pointerdown', (e) => {
+    if (e.target === enter || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    drag = { x: e.clientX, y: e.clientY, t0: target, on: false, vx: 0, lx: e.clientX, lt: performance.now(), id: e.pointerId };
   });
+  const release = (e) => {
+    if (!drag || (e && e.pointerId !== drag.id)) return;
+    const d = drag; drag = null; el.classList.remove('is-dragging');
+    if (d.on) { target = Math.round(target - dir * clamp(d.vx / stepPx() * 0.18, -1.2, 1.2)); said = true; touch(); return; }
+    if (!e || e.type !== 'pointerup') return;
+    const f = pick(e);                                    // a tap on a card behind brings it forward; on the front card, the next one
+    if (!f) return;
+    if (Math.abs(slot(f.userData.i, target)) < 0.5) go(1); else goTo(f.userData.i);
+  };
+  el.addEventListener('pointerup', release); el.addEventListener('pointercancel', release);
+  // sideways scrolling on a trackpad or with shift + wheel; vertical scrolling is left to the page
+  let snap = 0;
+  el.addEventListener('wheel', (e) => {
+    const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
+    if (!dx) return;
+    e.preventDefault();
+    target += dir * dx / (e.deltaMode === 1 ? 12 : 280); touch(); said = true;
+    clearTimeout(snap); snap = setTimeout(() => { target = Math.round(target); }, 160);
+  }, { passive: false });
 
-  let fan = 0;
+  const ref = new THREE.Object3D(); scene.add(ref);       // where the front card rests, unturned: the buttons sit still under it
+  const v = new THREE.Vector3();
+  function rest(obj, k, p, out, bob) {
+    let x = 2 + 0.66 * k * (1 + 1.5 * p), y = -1.4 + 0.36 * k * (1 + 1.1 * p) + bob, z = -1.5 * k * (1 + 0.45 * p);
+    x -= out * 3.4; y -= out * 0.5; z += out * 1.4;       // leaving the front: out to the side, toward you
+    obj.position.set(side * (x - C.x), y - C.y, z - C.z);
+    obj.rotation.set(0, side * (-0.384 - p * 0.07 * k - out * 0.4), side * p * 0.018 * k);
+  }
   function layout(dt, t) {
+    if (!drag) {
+      idle += dt;
+      const front = mod(Math.round(target), N);
+      if (!reduce && !pointer.inside && !el.matches(':focus-visible') && idle > (front === 0 ? 6.5 : 3.6)) { target = Math.round(target) + 1; idle = 0; }
+      pos = reduce ? target : damp(pos, target, 5, dt);
+    }
     const sec = el.closest('section') || el, r = sec.getBoundingClientRect();
-    const target = Math.max(clamp(-r.top / (r.height * 0.4)), pointer.inside ? 0.55 : 0);   // scrolling, or the cursor over the stack, fans the frames
-    fan = reduce ? target : damp(fan, target, 6, dt);
+    const ft = Math.max(clamp(-r.top / (r.height * 0.4)), pointer.inside ? 0.55 : 0);   // scrolling, or the cursor over the stack, fans the pile
+    fan = reduce ? ft : damp(fan, ft, 6, dt);
     const p = ease(fan);
-    if (!dragging && Date.now() > tapUntil) dragYaw = damp(dragYaw, 0, 1.5, dt);
-    if (hovered && Date.now() > tapUntil && pointer.tx === 0 && pointer.ty === 0) hovered = null;
     pointer.x = damp(pointer.x, pointer.tx, 4, dt); pointer.y = damp(pointer.y, pointer.ty, 4, dt);
-    const side = rtl ? -1 : 1;
     pivot.position.set(side * C.x, C.y, C.z);
-    pivot.rotation.y = side * pointer.x * 0.16 + dragYaw;
+    pivot.rotation.y = side * pointer.x * 0.16;
     pivot.rotation.x = pointer.y * 0.08;
-    const place = (m, i) => {
-      const bob = reduce ? 0 : Math.sin(t * 0.7 + i * 0.6) * 0.035;
-      const x = 2 + 0.66 * i * (1 + 1.5 * p), y = -1.4 + 0.36 * i * (1 + 1.1 * p) + bob, z = -1.5 * i * (1 + 0.45 * p);
-      m.position.set(side * (x - C.x), y - C.y, z - C.z);
-      m.rotation.y = side * (-0.384 - p * 0.07 * i);
-      m.rotation.z = side * p * 0.018 * i;
-    };
-    place(front, 0);
-    frames.forEach((m) => {
-      const i = m.userData.i;
-      place(m, i);
-      m.userData.lift = damp(m.userData.lift, m === hovered ? 1 : 0, 10, dt);
-      m.position.z += m.userData.lift * 0.9;
-      m.position.y += m.userData.lift * 0.25;
+    ref.position.set(side * 2, -1.4, 0); ref.rotation.set(0, side * -0.384, 0); ref.updateMatrixWorld();
+    cards.forEach(({ mesh: m }) => {
+      const i = m.userData.i, k0 = slot(i), k = Math.max(k0, 0), out = Math.max(-k0, 0);
+      rest(m, k, p, out, reduce ? 0 : Math.sin(t * 0.7 + i * 0.6) * 0.035);
+      m.userData.lift = damp(m.userData.lift, m === hovered && k > 0.5 ? 1 : 0, 10, dt);
+      m.position.z += m.userData.lift * 0.9; m.position.y += m.userData.lift * 0.25;
+      const base = k < 1 ? lerp(1, 0.9, k) : Math.max(0.3, 0.98 - 0.085 * k);
+      const arrive = clamp((N - 1 - k0) / 0.8);           // a card reaching the back fades in there
+      const a = Math.min(1, base + m.userData.lift * 0.4) * (1 - out) * arrive;
+      m.material.opacity = a; m.visible = a > 0.01;
       const b = 1 + m.userData.lift * 0.45; m.material.color.setRGB(b, b, b);
-      m.material.opacity = Math.min(1, opac[i - 1] + m.userData.lift * 0.4);
+      m.renderOrder = Math.round(100 - k * 10 + out * 20);
+      const tab = m.userData.tab;
+      if (tab) { tab.material.opacity = Math.min(1, a + 0.15) * (k0 < 0 ? 1 - out : 1); tab.renderOrder = m.renderOrder + 1; }
     });
+    const idx = mod(Math.round(pos), N);
+    if (idx !== lastIdx) {
+      lastIdx = idx;
+      legend.forEach((li, k) => { const on = k + 1 === idx; li.classList.toggle('is-on', on); on ? li.setAttribute('aria-current', 'true') : li.removeAttribute('aria-current'); });
+    }
+    if (said && !drag && Math.abs(pos - target) < 0.3) { live.textContent = idx ? `${idx} ${L.of} 8: ${names[idx - 1]}` : label; said = false; }
   }
   function overlays() {
-    // the real link over the drawn button on the front card
-    const pts = [[-1.0, -0.69], [1.0, -0.69], [-1.0, -0.98], [1.0, -0.98]].map(([x, y]) => toScreen(s, front.localToWorld(new THREE.Vector3(x, y, 0))));
-    const xs = pts.map((q) => q.x), ys = pts.map((q) => q.y);
-    Object.assign(enter.style, { left: Math.min(...xs) + 'px', top: Math.min(...ys) + 'px', width: (Math.max(...xs) - Math.min(...xs)) + 'px', height: (Math.max(...ys) - Math.min(...ys)) + 'px' });
-    if (hovered) {
-      const q = toScreen(s, hovered.userData.label.localToWorld(new THREE.Vector3(0.42, 0.05, 0)));
-      tag.textContent = '0' + hovered.userData.i + '  ' + (opts.names || CRAFTS)[hovered.userData.i - 1];
+    const low = toScreen(s, ref.localToWorld(v.set(0, -CARD_H / 2, 0)));
+    ctrl.style.top = Math.min(s.h - 50, low.y + 24) + 'px';
+    ctrl.style.left = clamp(low.x, 60, s.w - 60) + 'px';
+    if (hovered && hovered.userData.i > 0) {
+      const q = toScreen(s, hovered.userData.tab.localToWorld(v.set(0.42, 0.05, 0)));
+      tag.textContent = String(hovered.userData.i).padStart(2, '0') + '  ' + names[hovered.userData.i - 1];
       tag.style.transform = `translate(${q.x}px, ${q.y}px) translate(${rtl ? '-100%' : '0'}, -50%)`;
       tag.style.opacity = '1';
     } else tag.style.opacity = '0';
+    if (!enter) return;
+    const m = cards[0].mesh, k0 = slot(0);
+    const hx = BTN.w * CARD_W / 2, cy = (0.5 - BTN.cy) * CARD_H, hy = BTN.h * CARD_H / 2;
+    const pts = [[-hx, cy - hy], [hx, cy - hy], [-hx, cy + hy], [hx, cy + hy]].map(([x, y]) => toScreen(s, m.localToWorld(v.set(x, y, 0))));
+    const xs = pts.map((q) => q.x), ys = pts.map((q) => q.y);
+    Object.assign(enter.style, { left: Math.min(...xs) + 'px', top: Math.min(...ys) + 'px', width: (Math.max(...xs) - Math.min(...xs)) + 'px', height: (Math.max(...ys) - Math.min(...ys)) + 'px' });
+    enter.classList.toggle('is-off', Math.abs(k0) > 0.3);
   }
   s.onResize = () => {
     // 1 unit = 100 px at the front card, as in the CSS version; smaller screens zoom out
@@ -277,7 +399,7 @@ function initStack(el, opts = {}) {
     const ex = 0.47, ey = -1.72;                          // the eye: a little left of and below the front card's centre
     let l = (-aL - ex) * n / D, r = (W - aL - ex) * n / D;
     const t = (aT - ey) * n / D, b = (aT - H - ey) * n / D;
-    if (rtl) { const L = l; l = -r; r = -L; }
+    if (rtl) { const L0 = l; l = -r; r = -L0; }
     camera.position.set(rtl ? -ex : ex, ey, D); camera.rotation.set(0, 0, 0); camera.updateMatrixWorld();
     camera.projectionMatrix.makePerspective(l, r, t, b, n, 200);
     camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
@@ -383,11 +505,15 @@ function initGlobe(el, cfg) {
   const look = new THREE.Vector3(), tmp = new THREE.Vector3(), cdir = new THREE.Vector3();
   s.update = (dt) => {
     const r = el.getBoundingClientRect(), vh = innerHeight;
-    // the turn runs the whole time the globe crosses the screen: from a fifth of it showing at the bottom
-    // until its centre is 30% from the top; the view follows the scroll softly, at a capped speed
-    const from = vh - r.height * 0.2, to = vh * 0.3 - r.height * 0.5;
+    // the turn runs the whole time the globe crosses the screen, from its top edge coming in at the bottom.
+    // With figures under it, it ends when they are well in view (their top at 62% of the screen), so the
+    // close-up is there when people stop to read them; otherwise when the globe's centre is 22% from the top.
+    // The view follows the scroll closely, eased, at a capped speed.
+    const from = vh - r.height * 0.05;
+    let to = vh * 0.22 - r.height * 0.5;
+    if (cfg.figs) to = Math.min(from - 320, vh * 0.62 - (cfg.figs.getBoundingClientRect().top - r.top));
     const target = reduce ? 1 : clamp((from - r.top) / (from - to));
-    st.p = reduce ? 1 : follow(st.p, target, st.pv, 0.5, 0.75, dt);
+    st.p = reduce ? 1 : follow(st.p, target, st.pv, 0.4, 0.7, dt);
     const P = poseAt(st.p);
     const idle = !drag && performance.now() - st.last > 2600;
     if (!drag) { st.dyaw += st.vy * dt; st.vy = damp(st.vy, 0, 2.5, dt); }
@@ -533,7 +659,7 @@ function start() {
   const rtl = document.documentElement.dir === 'rtl';
   const q = (k) => document.querySelector(`[data-caa="${k}"]`);
   mount(q('stack'), (el) => initStack(el, { rtl, names: el.dataset.names ? el.dataset.names.split('|') : null }));
-  mount(q('globe'), (el) => initGlobe(el, { mode: 'saudi', frames: [{ p: 0, lat: 20, lon: 18, zoom: 0 }, { p: 0.42, lat: 22, lon: 37, zoom: 0 }, { p: 0.9, lat: KSA_C.lat, lon: KSA_C.lon, zoom: 1 }] }));
+  mount(q('globe'), (el) => initGlobe(el, { mode: 'saudi', figs: (el.closest('section') || document).querySelector('.caa-figs'), frames: [{ p: 0, lat: 20, lon: 18, zoom: 0 }, { p: 0.4, lat: 22, lon: 37, zoom: 0 }, { p: 0.92, lat: KSA_C.lat, lon: KSA_C.lon, zoom: 1 }] }));
   mount(q('examples'), (el) => initGlobe(el, { mode: 'gulf', markers: JSON.parse(el.dataset.markers || '[]'), frames: [{ p: 0, lat: 36, lon: -60, zoom: 0 }, { p: 0.45, lat: 38, lon: 4, zoom: 0 }, { p: 0.9, lat: 27, lon: 45, zoom: 0.78 }] }));
   mount(q('building'), (el) => initBuilding(el));
   requestAnimationFrame(frame);

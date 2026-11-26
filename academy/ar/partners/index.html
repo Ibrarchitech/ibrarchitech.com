@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; frame-src https://docs.google.com; base-uri 'none'; form-action 'none'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>للشركاء · أكاديمية الفنون السينمائية</title>
-<meta name="description" content="نموذج لأكاديمية أفلام في جدة قائم على الأدلة: البحث، والأهداف التي يخدمها، وطرق التعاون فيه.">
+<meta name="description" content="نموذج لأكاديمية فنون سينمائية في جدة: البحث، والأهداف التي يخدمها، وطرق التعاون فيه.">
 <meta name="author" content="Ibrahim A. Fallatah">
 <link rel="canonical" href="https://ibrarchitech.com/academy/ar/partners/">
 <link rel="alternate" hreflang="en" href="https://ibrarchitech.com/academy/partners/">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Cinematic Arts Academy">
 <meta property="og:title" content="للشركاء · أكاديمية الفنون السينمائية">
-<meta property="og:description" content="نموذج لأكاديمية أفلام في جدة قائم على الأدلة: البحث، والأهداف التي يخدمها، وطرق التعاون فيه.">
+<meta property="og:description" content="نموذج لأكاديمية فنون سينمائية في جدة: البحث، والأهداف التي يخدمها، وطرق التعاون فيه.">
 <meta property="og:url" content="https://ibrarchitech.com/academy/ar/partners/">
 <meta property="og:image" content="https://ibrarchitech.com/academy/assets/share-ar.jpg">
 <meta property="og:image:width" content="1200">
@@ -134,11 +134,28 @@ html[dir=rtl] h1{padding-top:10px}
 html:not(.caa-no3d) .caa-stack > div:not(.caa-stage),html:not(.caa-no3d) .caa-globebox > :not(.caa-stage){visibility:hidden}
 .caa-no3d .caa-stage{display:none}
 .caa-off > :not(.caa-stage){visibility:visible !important}.caa-off > .caa-stage{display:none !important}
-.caa-stack3d{bottom:70px}
-.caa-enter{position:absolute;z-index:3;display:block;color:transparent;font-size:1px;overflow:hidden;border-radius:2px}
-.caa-enter:focus-visible{outline:2px solid #F08A3C;outline-offset:4px}
+.caa-stack3d{bottom:70px;cursor:grab;outline:none}
+@media (min-width: 981px){.caa-five{grid-template-columns:repeat(6,minmax(0,1fr)) !important}.caa-five > .caa-tile{grid-column:span 2}.caa-five > .caa-tile:nth-child(n+4){grid-column:span 3}}
+@media (min-width: 641px) and (max-width: 980px){.caa-five{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.caa-five > .caa-tile:last-child{grid-column:1 / -1}}
+.caa-stack3d.is-dragging{cursor:grabbing}
+.caa-stack3d:focus-visible{outline:2px solid #F08A3C;outline-offset:-2px}
+.caa-enter.is-off{pointer-events:none}
 .caa-craft-tag{position:absolute;left:0;top:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .25s;white-space:nowrap;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:20px;letter-spacing:1px;color:#EDE6DA;background:rgba(0,0,0,.72);padding:4px 10px 4px 8px;border-left:3px solid #F08A3C}
 html[dir=rtl] .caa-craft-tag{font-family:'IBM Plex Sans Arabic',sans-serif;letter-spacing:0;border-left:0;border-right:3px solid #F08A3C}
+.caa-cf-ctrl{position:absolute;left:50%;top:auto;bottom:auto;transform:translateX(-50%);z-index:3;display:flex;gap:16px}
+.caa-cf-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(237,230,218,.4);background:rgba(14,12,11,.7);color:#EDE6DA;display:grid;place-items:center;padding:0;cursor:pointer;transition:border-color .2s,color .2s}
+.caa-cf-btn:hover{border-color:#F08A3C;color:#F08A3C}
+.caa-cf-btn:focus-visible{outline:2px solid #F08A3C;outline-offset:3px}
+.caa-sr{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html.caa-3d .caa-legend li{cursor:pointer;transition:color .25s}
+html.caa-3d .caa-legend li:hover,html.caa-3d .caa-legend li.is-on{color:#EDE6DA}
+html.caa-3d .caa-legend li.is-on{text-decoration:underline;text-decoration-color:#F08A3C;text-decoration-thickness:2px;text-underline-offset:6px}
+html.caa-3d .caa-legend li:focus-visible{outline:1px solid #F08A3C;outline-offset:3px}
+@keyframes caa-swipe{0%,15%{transform:translateX(0)}50%,65%{transform:translateX(14px)}100%{transform:translateX(0)}}
+.caa-swipe{animation:caa-swipe 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.caa-swipe{animation:none}}
+.caa-enter{position:absolute;z-index:3;display:block;color:transparent;font-size:1px;overflow:hidden;border-radius:2px}
+.caa-enter:focus-visible{outline:2px solid #F08A3C;outline-offset:4px}
 .caa-globe3d{cursor:grab}
 .caa-globe3d.is-dragging{cursor:grabbing}
 .caa-pin,.caa-mk,.caa-area{position:absolute;left:0;top:0;z-index:2;pointer-events:none;transition:opacity .3s}
@@ -207,6 +224,7 @@ html[dir=rtl] .caa-goal-l{font-family:inherit;letter-spacing:0;font-size:14px}
 html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5px}
 @media (max-width: 760px){
   .caa-stack3d{bottom:100px}
+  .caa-stack{height:480px !important}
   .caa-exist{margin-top:80px}
   .caa-exist-list{grid-template-columns:minmax(0,1fr)}
   .caa-btag{padding:6px 9px}
@@ -247,8 +265,8 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 
 <div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column">
 <p style="margin: 0 0 14px; font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 14px; letter-spacing: 0; color: #EDE6DA; border-bottom: 1px solid #EDE6DA; align-self: flex-start; padding-bottom: 6px">للشركاء · ملخّص المشروع</p>
-<h1 style="margin: 0; font-family: 'Amiri', serif; font-weight: 700; font-size: clamp(46px, 5vw, 80px); line-height: 1.3">نموذج لأكاديمية أفلام في جدة، قائم على الأدلة.</h1>
-<p style="margin: 32px 0 0; font-size: 19px; line-height: 1.6; color: #C9C1B5; max-width: 580px">يدرس مشروع التخرّج هذا ما يحتاجه مركز للفنون السينمائية في جدة: من يخدم، وماذا يدرّس، وكم يستوعب، وما الذي يجب أن يقدّمه المبنى. البحث مفتوح، ونرحّب بالشركاء لمراجعته والإضافة إليه والاستفادة منه.</p>
+<h1 style="margin: 0; font-family: 'Amiri', serif; font-weight: 700; font-size: clamp(46px, 5vw, 80px); line-height: 1.3">نموذج لأكاديمية فنون سينمائية في جدة.</h1>
+<p style="margin: 32px 0 0; font-size: 19px; line-height: 1.6; color: #C9C1B5; max-width: 580px">أطروحة تخرّج في العمارة تدرس مركزاً للفنون السينمائية في جدة، وتتأمّل ما يمكن أن يكون عليه مستقبل هذا المجال.</p>
 <div style="margin-top: 40px; display: flex; flex-wrap: wrap; gap: 14px">
 <a href="#brief" style="font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 14px; letter-spacing: 0; font-weight: 600; color: #0E0C0B; background: #F08A3C; text-decoration: none; padding: 16px 26px; border-radius: 999px">ملخّص المشروع ↓</a>
 <a href="mailto:ibrarchitech@gmail.com" style="font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 14px; letter-spacing: 0; color: #EDE6DA; text-decoration: none; padding: 15px 25px; border-radius: 999px; border: 1px solid #4A4541">اطلب اجتماعاً</a>
@@ -303,7 +321,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <div style="border-bottom: 1px solid rgba(237,230,218,0.35); display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))">
 <div style="padding: 0 0 28px 26px; display: flex; flex-direction: column; gap: 14px">
 <p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: clamp(56px, 5vw, 78px); line-height: 1">18.8M</p>
-<div style="display: flex; align-items: center; gap: 10px"><span style="font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 12px; letter-spacing: 0; color: #0E0C0B; background: #EDE6DA; padding: 4px 8px">المرتبة 01</span><span style="font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 12px; letter-spacing: 0; color: #8C8580">في المنطقة</span></div>
+<div style="display: flex; align-items: center; gap: 10px"><span style="font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 12px; letter-spacing: 0; color: #0E0C0B; background: #EDE6DA; padding: 4px 8px">المرتبة 01</span><span style="font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 12px; letter-spacing: 0; color: #8C8580">في الشرق الأوسط وشمال أفريقيا</span></div>
 <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #C9C1B5">تذكرة سينما في 2025، أعلى شبّاك تذاكر في المنطقة</p>
 </div>
 <div style="padding: 0 26px 28px; border-right: 1px solid rgba(237,230,218,0.2); display: flex; flex-direction: column; gap: 14px">
@@ -355,13 +373,13 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <td style="padding: 22px 0 22px 16px; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G1</td>
 <td style="padding: 18px 0 18px 20px; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">10,000</span><span style="display: block; color: #C9C1B5">شخص يعمل في الأفلام بحلول 2030</span></td>
 <td data-label="الجهة" style="padding: 22px 0 22px 20px; vertical-align: top; color: #8C8580">وزارة الاستثمار</td>
-<td data-label="ما تفعله الأكاديمية" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">← </span>تدرّب الفرق في ثماني حِرف، من أول ورشة حتى الدبلوم</td>
+<td data-label="ما تفعله الأكاديمية" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">← </span>تدرّب الحِرف الثماني معاً، في فرق عمل</td>
 </tr>
 <tr class="caa-row" style="border-top: 1px solid #26221F">
 <td style="padding: 22px 0 22px 16px; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G2</td>
 <td style="padding: 18px 0 18px 20px; vertical-align: top"><span style="display: block; font-family: 'Doto', monospace; font-weight: 900; font-size: 36px; line-height: 1.1">7,000</span><span style="display: block; color: #C9C1B5">طالب أفلام بحلول 2030</span></td>
 <td data-label="الجهة" style="padding: 22px 0 22px 20px; vertical-align: top; color: #8C8580">وزارة الاستثمار</td>
-<td data-label="ما تفعله الأكاديمية" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">← </span>برامج لسنة أو سنتين، تغذّيها دورات قصيرة وإقامات</td>
+<td data-label="ما تفعله الأكاديمية" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">← </span>برامج لسنة أو سنتين، ترافقها دورات قصيرة وإقامات</td>
 </tr>
 <tr class="caa-row" style="border-top: 1px solid #26221F">
 <td style="padding: 22px 0 22px 16px; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G3</td>
@@ -385,7 +403,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <td style="padding: 22px 0 22px 16px; vertical-align: top; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #4A4541">G6</td>
 <td style="padding: 18px 0 18px 20px; vertical-align: top"><span style="display: block; font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-weight: 700; font-size: 29px; line-height: 1.1">معهد</span><span style="display: block; color: #C9C1B5">معهد سعودي للأفلام</span></td>
 <td data-label="الجهة" style="padding: 22px 0 22px 20px; vertical-align: top; color: #8C8580">استراتيجية هيئة الأفلام، 2021</td>
-<td data-label="ما تفعله الأكاديمية" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">← </span>يستكشف ما يمكن أن يكون عليه مكان كهذا، في جدة</td>
+<td data-label="ما تفعله الأكاديمية" style="padding: 22px 0; vertical-align: top"><span style="color: #F08A3C; font-family: 'IBM Plex Mono', monospace">← </span>يستكشف ما يمكن أن يكون عليه مكان كهذا</td>
 </tr>
 </tbody>
 </table>
@@ -409,7 +427,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <div class="caa-tile" style="background: linear-gradient(165deg, #201c19, #131110 70%); border-radius: 22px; padding: 26px; min-height: 400px; box-shadow: 0 30px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(237,230,218,0.07); display: flex; flex-direction: column; justify-content: space-between; gap: 18px">
 <div style="display: flex; justify-content: space-between; align-items: flex-start"><p style="margin: 0; font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 13px; letter-spacing: 0; color: #C9C1B5">02  السُّلّم</p><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 64px; line-height: 0.9">6</p></div>
 <svg width="200" height="125" viewBox="0 0 160 100" aria-hidden="true" style="align-self: center"><path d="M14 90 A66 66 0 0 1 146 90" fill="none" stroke="#4A4541" stroke-width="4" stroke-linecap="round" stroke-dasharray="0.1 6"></path><path d="M14 90 A66 66 0 0 1 146 90" fill="none" stroke="#2E2926" stroke-width="1"></path><circle cx="17.2" cy="69.6" r="4.5" fill="#F08A3C"></circle><circle cx="41.2" cy="36.6" r="4.5" fill="#F08A3C"></circle><circle cx="80" cy="24" r="4.5" fill="#F08A3C"></circle><circle cx="118.8" cy="36.6" r="4.5" fill="#F08A3C"></circle><circle cx="142.8" cy="69.6" r="9" fill="none" stroke="#F08A3C" stroke-width="1.5"></circle><circle cx="142.8" cy="69.6" r="4.5" fill="#F08A3C"></circle><text direction="rtl" text-anchor="middle" x="80" y="72" font-family="IBM Plex Sans Arabic, Tahoma, sans-serif" font-size="10" letter-spacing="0" fill="#8C8580">من ساعات إلى سنوات</text></svg>
-<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; font-size: 20px; font-weight: 600">خطوات على سُلّم واحد</p><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #8C8580">من العروض والحوارات إلى الدبلوم، ومعها المسابقات. البداية متاحة للجميع، والدبلوم يُنال بالعمل.</p></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; font-size: 20px; font-weight: 600">خطوات على سُلّم واحد</p><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #8C8580">من العروض والحوارات والمسابقات وصولاً إلى الدبلوم، هناك مدخل يناسب كل مستوى وكل وقت.</p></div>
 </div>
 
 <div class="caa-tile" style="background: linear-gradient(165deg, #201c19, #131110 70%); border-radius: 22px; padding: 26px; min-height: 400px; box-shadow: 0 30px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(237,230,218,0.07); display: flex; flex-direction: column; justify-content: space-between; gap: 18px">
@@ -441,7 +459,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <g stroke-width="1" fill="none"><path d="M107.4 22.6 H140" stroke="#4A4541"></path><path d="M107.5 53.6 H140" stroke="#8C8580"></path><path d="M91.3 74.6 L100 84 H140" stroke="#EDE6DA"></path><path d="M72 72 L112 115 H140" stroke="#F08A3C"></path></g>
 <g font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.5"><text direction="rtl" text-anchor="end" x="146" y="26" fill="#8C8580">دولياً</text><text direction="rtl" text-anchor="end" x="146" y="57" fill="#8C8580">الشرق الأوسط</text><text direction="rtl" text-anchor="end" x="146" y="88" fill="#C9C1B5">الخليج</text><text direction="rtl" text-anchor="end" x="146" y="119" fill="#F08A3C">السعودية</text></g>
 </svg>
-<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; font-size: 20px; font-weight: 600">مناطق للأمثلة</p><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #8C8580">دولياً، وفي الشرق الأوسط، والخليج، والسعودية: أين يوجد النموذج، وأين لا يوجد.</p></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><p style="margin: 0; font-size: 20px; font-weight: 600">مناطق للأمثلة</p><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #8C8580">النموذج قائم حول العالم، وظهر حديثاً في الشرق الأوسط وشمال أفريقيا، أما في الخليج العربي فلا يوجد إلا أجزاءً متفرّقة.</p></div>
 </div>
 
 </div>
@@ -450,13 +468,13 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 
 <section id="help" style="position: relative; padding: 130px clamp(20px, 3.4vw, 48px) 130px; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 55% 260px at 50% 100%, rgba(240,138,60,0.17), transparent), radial-gradient(ellipse 60% 40% at 50% 62%, rgba(62,156,151,0.12), transparent 70%), #000000">
 <p style="margin: 0 0 28px; font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 14px; letter-spacing: 0; color: #8C8580"><span style="color: #F08A3C">■</span>  04  —  أين يمكن للشركاء المساعدة</p>
-<h2 style="margin: 0 0 72px; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.4; max-width: 900px">أربعة مداخل للتعاون، من ساعة مراجعة إلى زيارة موقع تصوير.</h2>
+<h2 style="margin: 0 0 72px; font-size: clamp(34px, 3.6vw, 54px); font-weight: 600; line-height: 1.4; max-width: 900px">أربع طرق للتعاون، من مقابلة لا تتجاوز 30 دقيقة إلى زيارة موقع تصوير.</h2>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px 0">
 <div style="position: relative; border-top: 1px solid #3E9C97; padding: 30px 0 0 26px; display: flex; flex-direction: column; gap: 10px">
 <span aria-hidden="true" style="position: absolute; right: 0; top: -7px; width: 13px; height: 13px; border-radius: 50%; background: #3E9C97; box-shadow: 0 0 18px rgba(62,156,151,0.8)"></span>
-<div style="display: flex; align-items: baseline; gap: 14px"><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 40px; line-height: 1">01</p><p style="margin: 0; font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 12px; letter-spacing: 0; color: #3E9C97">مراجعة · ساعة</p></div>
-<p style="margin: 0; font-size: 21px; font-weight: 600">راجع الملخّص</p>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">ساعة مع الطالب، وملاحظاتك على البرنامج والطاقة الاستيعابية.</p>
+<div style="display: flex; align-items: baseline; gap: 14px"><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 40px; line-height: 1">01</p><p style="margin: 0; font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 12px; letter-spacing: 0; color: #3E9C97">مقابلة · 30–60 دقيقة</p></div>
+<p style="margin: 0; font-size: 21px; font-weight: 600">شارك في مقابلة</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">بعضٌ من وقتك، نستفيد فيه من رؤيتك وخبرتك وما لديك من بيانات عن القطاع.</p>
 </div>
 <div style="position: relative; border-top: 1px solid #3E9C97; padding: 30px 0 0 26px; display: flex; flex-direction: column; gap: 10px">
 <span aria-hidden="true" style="position: absolute; right: 0; top: -7px; width: 13px; height: 13px; border-radius: 50%; background: #3E9C97; box-shadow: 0 0 18px rgba(62,156,151,0.8)"></span>
@@ -468,7 +486,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 <span aria-hidden="true" style="position: absolute; right: 0; top: -7px; width: 13px; height: 13px; border-radius: 50%; background: #3E9C97; box-shadow: 0 0 18px rgba(62,156,151,0.8)"></span>
 <div style="display: flex; align-items: baseline; gap: 14px"><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 40px; line-height: 1">03</p><p style="margin: 0; font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 12px; letter-spacing: 0; color: #3E9C97">انتشار</p></div>
 <p style="margin: 0; font-size: 21px; font-weight: 600">وسّع انتشار الاستبيان</p>
-<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">شاركه مع المتدرّبين أو الأعضاء أو الفرق التي تعمل معها.</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: #8C8580">شاركه مع المتدرّبين أو الأعضاء أو الفرق في شبكة معارفك.</p>
 <a href="../../survey/" style="font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 13px; letter-spacing: 0; text-decoration: none">اطّلع على الاستبيان ←</a>
 </div>
 <div style="position: relative; border-top: 1px solid #3E9C97; padding: 30px 0 0; display: flex; flex-direction: column; gap: 10px">
@@ -496,7 +514,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 </div>
 <div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 22px; position: relative; z-index: 2">
 <p style="margin: 0; font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 14px; letter-spacing: 0; color: #8C8580"><span style="color: #F08A3C">■</span>  05  —  الملخّص</p>
-<h2 style="margin: 0; font-size: clamp(34px, 3.4vw, 50px); font-weight: 600; line-height: 1.4; max-width: 620px">المشكلة والنموذج والمبنى، في ملخّص قصير.</h2>
+<h2 style="margin: 0; font-size: clamp(34px, 3.4vw, 50px); font-weight: 600; line-height: 1.4; max-width: 620px">المشكلة والنموذج والمقترح، في ملخّص قصير.</h2>
 <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #C9C1B5">يُكتب الآن، وسيُحدَّث مع تقدّم البحث. اطلب نسخة وسأرسلها لك فور جاهزيتها.</p>
 <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 520px; border-top: 1px solid rgba(237,230,218,0.3)">
 <div style="padding: 14px 0 0 14px; display: flex; flex-direction: column; gap: 6px"><p style="margin: 0; font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 12px; letter-spacing: 0; color: #8C8580">الصيغة</p><p style="margin: 0; font-family: 'Doto', monospace; font-weight: 900; font-size: 28px; line-height: 1">PDF</p></div>
@@ -513,7 +531,7 @@ html[dir=rtl] .caa-goal-src{font-family:inherit;letter-spacing:0;font-size:12.5p
 
 <footer style="position: relative; background: radial-gradient(ellipse 55% 260px at 50% 0%, rgba(240,138,60,0.17), transparent), #000000; padding: 64px clamp(20px, 3.4vw, 48px) 60px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; align-items: flex-end">
 <p style="margin: 0; font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 13px; letter-spacing: 0; line-height: 2; color: #8C8580">أكاديمية الفنون السينمائية · مشروع تخرّج في العمارة<br>إبراهيم أ. فلاتة · جامعة الملك عبدالعزيز · 2026–2027</p>
-<p style="margin: 0; font-size: 14px; color: #8C8580; line-height: 1.6; max-width: 560px">مشروع بحثي طلابي، غير تابع لأي جهة حكومية؛ والأهداف أعلاه منقولة من المصادر المنشورة المذكورة.</p>
+<p style="margin: 0; font-size: 14px; color: #8C8580; line-height: 1.6; max-width: 560px">أطروحة تخرّج في العمارة، لا تتبع أي جهة حكومية؛ والأهداف أعلاه منقولة من المصادر المنشورة المذكورة.</p>
 <a href="../" style="font-family: 'IBM Plex Sans Arabic', Tahoma, sans-serif; font-size: 14px; letter-spacing: 0; text-decoration: none">→ العودة إلى الرئيسية</a>
 </footer>
 
